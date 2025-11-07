@@ -1,0 +1,14 @@
+name: OpenAPI Lint
+on:
+  pull_request:
+    paths:
+      - 'docs/openapi.yaml'
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Validate OpenAPI
+        uses: stoplightio/spectral-action@v0.8.0
+        with:
+          args: 'docs/openapi.yaml'
