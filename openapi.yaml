@@ -1,1 +1,232 @@
+openapi: 3.0.0
+info:
+  title: Atletiek.nu Competition Data API
+  description: |
+    A refined, hypothetical API for accessing competition data managed by Atletiek.nu, 
+    focusing on events, start lists, results, and national rankings.
+  version: 1.1.0
+servers:
+  - url: https://api.atletiek.nu/v1
+    description: Primary API server for public access
 
+# ----------------- PATHS (API Endpoints) -----------------
+paths:
+  /events:
+    get:
+      tags:
+        - Wedstrijden (Events)
+      summary: Retrieve a calendar of upcoming and past athletics events.
+      operationId: getEvents
+      parameters:
+        - name: status
+          in: query
+          description: Filter events by status.
+          required: false
+          schema:
+            type: string
+            enum: [Upcoming, Completed, Registration_Open]
+        - name: year
+          in: query
+          description: Filter events by year.
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of detailed events.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventDetails'
+
+  /events/{eventId}/startlist:
+    get:
+      tags:
+        - Wedstrijden (Events)
+      summary: Get the official start list and heat/lane assignments for an event.
+      operationId: getStartList
+      parameters:
+        - name: eventId
+          in: path
+          description: The unique identifier of the competition.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The start list grouped by discipline and series.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StartEntry'
+
+  /athletes/{atleetId}/prs:
+    get:
+      tags:
+        - Atleten (Athletes)
+      summary: Retrieve the Personal Best (PR) and Season Best (SB) records for an athlete.
+      operationId: getAthletePersonalBests
+      parameters:
+        - name: atleetId
+          in: path
+          description: The unique ID or KNAU/Atletiekunie license number of the athlete.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Athlete profile and personal/season bests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AthleteBests'
+
+  /rankings/{discipline}:
+    get:
+      tags:
+        - Ranglijsten (Rankings)
+      summary: Get national ranking data for a specific discipline and category.
+      operationId: getNationalRanking
+      parameters:
+        - name: discipline
+          in: path
+          description: The specific track and field discipline (e.g., 100m, Speerwerpen).
+          required: true
+          schema:
+            type: string
+        - name: category
+          in: query
+          description: Filter by age/gender category (e.g., Senioren Mannen, Meisjes U18).
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of ranked athletes and their top performances.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RankingEntry'
+
+# ----------------- COMPONENTS (Data Structures) -----------------
+components:
+  schemas:
+    EventDetails:
+      type: object
+      description: Detailed information about an athletics competition.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the event (e.g., '20250726_NK').
+          example: "NK2025"
+        naam:
+          type: string
+          description: The official name of the event (e.g., 'ASICS NK Atletiek 2025').
+        datum:
+          type: string
+          format: date
+          description: The start date of the event.
+        locatie:
+          type: string
+          description: Venue or city where the event is held.
+        organisator:
+          type: string
+          description: The organizing club or body.
+          example: "AV Flevo Delta"
+        inschrijving_status:
+          type: string
+          description: Current status of athlete registration.
+          enum: [Open, Closed, Full, Not_Applicable]
+          example: "Open"
+        uitslagen_url:
+          type: string
+          format: url
+          description: Direct link to the public results page for the event.
+
+    StartEntry:
+      type: object
+      description: A single entry in a start list, tied to a specific heat/series.
+      properties:
+        atleetId:
+          type: string
+          description: ID of the athlete.
+        naam:
+          type: string
+        club:
+          type: string
+          description: Athlete's affiliated club.
+        discipline:
+          type: string
+          example: "100m Vrouwen"
+        serie:
+          type: integer
+          description: The heat or series number.
+        baan:
+          type: integer
+          description: The lane number (for track events) or start group (for field events).
+        ingevoerde_prestatie:
+          type: string
+          description: The performance used for seeding the heat/group (PB, SB, or season best).
+          example: "11.23"
+
+    Performance:
+      type: object
+      description: A recorded result or personal best.
+      properties:
+        discipline:
+          type: string
+          description: The specific discipline (e.g., "400m Horden").
+        prestatie:
+          type: string
+          description: The recorded performance (time or distance).
+          example: "51.45"
+        eenheid:
+          type: string
+          enum: [sec, m, cm, punten]
+        datum:
+          type: string
+          format: date
+        locatie:
+          type: string
+          description: Location where the performance was achieved.
+
+    AthleteBests:
+      type: object
+      description: Athlete's profile with their best recorded performances.
+      properties:
+        atleetId:
+          type: string
+        volledige_naam:
+          type: string
+        geboortejaar:
+          type: integer
+        persoonlijke_records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Performance'
+        seizoen_records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Performance'
+
+    RankingEntry:
+      type: object
+      description: An entry on a specific national ranking list.
+      properties:
+        positie:
+          type: integer
+          description: The athlete's rank in the list.
+        atleetId:
+          type: string
+        naam:
+          type: string
+        club:
+          type: string
+        beste_prestatie:
+          $ref: '#/components/schemas/Performance'
