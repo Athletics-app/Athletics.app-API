@@ -11,13 +11,6 @@
 
 
 
-# Endpoint `auth`
-
-| Endpoint                                | Method                  | Description                                           |
-|----------------------------------------|------------------------|------------------------------------------------------|
-| /auth/login/                            | `POST`                 | Login user, returns token                             |
-| /auth/logout/                           | `POST`                 | Logout user                                          |
-| /auth/refresh/                          | `POST`                 | Refresh auth token                                   |
 
 # Endpoint `users`
 
@@ -36,8 +29,6 @@
 |----------------------------------------|------------------------|------------------------------------------------------|
 | /clubs/                                 | `GET` `POST`           | List of clubs / create new club                      |
 | /clubs/{club_id}/                        | `GET` `PUT` `DELETE`  | Club details                                         |
-| /clubs/{club_id}/members/               | `GET` `POST`           | Club members                                        |
-| /clubs/{club_id}/members/{user_id}/     | `GET` `DELETE`         | Specific member                                     |
 
 # Endpoint `competitions`
 
@@ -57,6 +48,8 @@
 | /competitions/{competition_id}/competitors/{competitor_id}/ | `GET` `PUT` `DELETE` | Specific competitor                           |
 | /competitions/{competition_id}/competitors/{competitor_id}/history/ | `GET` | Historical results                               |
 | /competitions/{competition_id}/rankings/ | `GET`                 | Competition rankings                                |
+| /clubs/{club_id}/members/               | `GET` `POST`           | Club members (change this to work in a competition)                                       |
+| /clubs/{club_id}/members/{user_id}/     | `GET` `DELETE`         | Specific member  (change this to work in a competition)                                    |
 
 # Endpoint `teams`
 
@@ -96,6 +89,8 @@
 |----------------------------------------|------------------------|------------------------------------------------------|
 | /search/                                 | `GET`                  | Search across competitions, events, users           |
 
+# Endpoint `auth`
+Will be designed by Athletics.app
 
 
 
