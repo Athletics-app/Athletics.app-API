@@ -32,24 +32,39 @@
 
 # Endpoint `competitions`
 
-| Endpoint                                | Method                  | Description                                           |
-|----------------------------------------|------------------------|------------------------------------------------------|
-| /competitions/                          | `GET` `POST`           | List of competitions / create new competition      |
-| /competitions/{competition_id}/         | `GET` `PUT` `DELETE`  | Specific competition                                 |
-| /competitions/{competition_id}/categories/ | `GET` `POST`        | Categories within a competition                     |
-| /competitions/{competition_id}/categories/{category_id}/ | `GET` `PUT` `DELETE` | Specific category                             |
-| /competitions/{competition_id}/categories/{category_id}/events/ | `GET` `POST` | Events within a category                       |
-| /competitions/{competition_id}/categories/{category_id}/events/{event_id}/ | `GET` `PUT` `DELETE` | Specific event                                |
-| /competitions/{competition_id}/categories/{category_id}/events/{event_id}/results/ | `GET` `POST` | Event results                                 |
+| Endpoint                                                                | Method                  | Description                                           |
+|------------------------------------------------------------------------|------------------------|------------------------------------------------------|
+| /competitions/                                                          | `GET` `POST`           | List of competitions / create new competition      |
+| /competitions/{competition_id}/                                         | `GET` `PUT` `DELETE`  | Specific competition                                 |
+| /competitions/{competition_id}/categories/                              | `GET` `POST`           | Categories within a competition                     |
+| /competitions/{competition_id}/categories/{category_id}/                | `GET` `PUT` `DELETE`  | Specific category                                     |
+| /competitions/{competition_id}/categories/{category_id}/events/         | `GET` `POST`           | Events within a category                             |
+| /competitions/{competition_id}/categories/{category_id}/events/{event_id}/ | `GET` `PUT` `DELETE` | Specific event                                       |
+| /competitions/{competition_id}/categories/{category_id}/events/{event_id}/results/ | `GET` `POST` | Event results                                     |
 | /competitions/{competition_id}/categories/{category_id}/events/{event_id}/results/{result_id}/ | `GET` `PUT` `DELETE` | Individual result                          |
-| /competitions/{competition_id}/categories/{category_id}/events/{event_id}/participants/ | `GET` `POST` | Event participants                             |
-| /competitions/{competition_id}/categories/{category_id}/events/{event_id}/participants/{competitor_id}/ | `GET` `DELETE` | Specific participant                         |
-| /competitions/{competition_id}/competitors/ | `GET` `POST`         | List of competitors / create new competitor        |
-| /competitions/{competition_id}/competitors/{competitor_id}/ | `GET` `PUT` `DELETE` | Specific competitor                           |
-| /competitions/{competition_id}/competitors/{competitor_id}/history/ | `GET` | Historical results                               |
-| /competitions/{competition_id}/rankings/ | `GET`                 | Competition rankings                                |
-| /clubs/{club_id}/members/               | `GET` `POST`           | Club members (change this to work in a competition)                                       |
-| /clubs/{club_id}/members/{user_id}/     | `GET` `DELETE`         | Specific member  (change this to work in a competition)                                    |
+| /competitions/{competition_id}/categories/{category_id}/events/{event_id}/participants/ | `GET` `POST` | Event participants                               |
+| /competitions/{competition_id}/categories/{category_id}/events/{event_id}/participants/{competitor_id}/ | `GET` `DELETE` | Specific participant                           |
+| /competitions/{competition_id}/registration/                             | `GET` `POST`           | Registration overview / create new registration     |
+| /competitions/{competition_id}/registration/settings/                   | `GET` `PUT`            | Online entry settings, maximum # of athletes, available bib numbers |
+| /competitions/{competition_id}/registration/discounts/                  | `GET` `POST`           | Discounts & codes                                   |
+| /competitions/{competition_id}/registration/payments/                   | `GET`                  | Payment overview                                    |
+| /competitions/{competition_id}/timetable/                               | `GET` `PUT`            | Timetable management                                |
+| /competitions/{competition_id}/startgroups/                              | `GET` `PUT`            | Startgroups & heat seeding                           |
+| /competitions/{competition_id}/results/settings/                        | `GET` `PUT`            | Results settings                                    |
+| /competitions/{competition_id}/leaderboard/settings/                    | `GET` `PUT`            | Leaderboard settings                                |
+| /competitions/{competition_id}/print/diplomas/                           | `GET`                  | Set up diplomas                                     |
+| /competitions/{competition_id}/print/startlists/                         | `GET`                  | Print startlists                                    |
+| /competitions/{competition_id}/print/bib-labels/                         | `GET`                  | Print bib labels                                    |
+| /competitions/{competition_id}/print/results/                            | `GET`                  | Print results                                       |
+| /competitions/{competition_id}/enter/results/                            | `GET` `POST`           | Enter results manually                               |
+| /competitions/{competition_id}/narrowcasting/                            | `GET`                  | Narrowcasting displays                               |
+| /competitions/{competition_id}/clubs/                                    | `GET`                  | Clubs participating in the competition             |
+| /competitions/{competition_id}/rights/                                    | `GET` `PUT`            | Rights management (who can edit/view what)         |
+| /competitions/{competition_id}/competitors/                               | `GET` `POST`           | List of competitors / create new competitor        |
+| /competitions/{competition_id}/competitors/{competitor_id}/              | `GET` `PUT` `DELETE`  | Specific competitor                                 |
+| /competitions/{competition_id}/competitors/{competitor_id}/history/      | `GET`                  | Historical results                                  |
+| /competitions/{competition_id}/rankings/                                  | `GET`                  | Competition rankings                                |
+
 
 # Endpoint `teams`
 
