@@ -80,13 +80,13 @@
 | /competitions/                                                                                          | `GET` `POST`         | List of competitions / create new competition                       | athletics.app |
 | /competitions/{competition_id}/                                                                         | `GET` `PUT` `DELETE` | Specific competition                                                | athletics.app |
 | /competitions/{competition_id}/categories/                                                              | `GET` `POST`         | Categories within a competition                                     | athletics.app |
-| /competitions/{competition_id}/categories/{category_id}/                                                | `GET` `PUT` `DELETE` | Specific category                                                   | athletics.app |
-| /competitions/{competition_id}/categories/{category_id}/events/                                         | `GET` `POST`         | Events within a category                                            | athletics.app |
-| /competitions/{competition_id}/categories/{category_id}/events/{event_id}/                              | `GET` `PUT` `DELETE` | Specific event                                                      | athletics.app |
-| /competitions/{competition_id}/categories/{category_id}/events/{event_id}/results/                      | `GET` `POST`         | Event results                                                       | athletics.app |
-| /competitions/{competition_id}/categories/{category_id}/events/{event_id}/results/{result_id}/          | `GET` `PUT` `DELETE` | Individual result                                                   | athletics.app |
-| /competitions/{competition_id}/categories/{category_id}/events/{event_id}/participants/                 | `GET` `POST`         | Event participants                                                  | athletics.app |
-| /competitions/{competition_id}/categories/{category_id}/events/{event_id}/participants/{competitor_id}/ | `GET` `DELETE`       | Specific participant                                                | athletics.app |
+| ../categories/{category_id}/                                                | `GET` `PUT` `DELETE` | Specific category                                                   | athletics.app |
+| ../categories/{category_id}/events/                                         | `GET` `POST`         | Events within a category                                            | athletics.app |
+| ../categories/{category_id}/events/{event_id}/                              | `GET` `PUT` `DELETE` | Specific event                                                      | athletics.app |
+| ../categories/{category_id}/events/{event_id}/results/                      | `GET` `POST`         | Event results                                                       | athletics.app |
+| ../categories/{category_id}/events/{event_id}/results/{result_id}/          | `GET` `PUT` `DELETE` | Individual result                                                   | athletics.app |
+| ../categories/{category_id}/events/{event_id}/participants/                 | `GET` `POST`         | Event participants                                                  | athletics.app |
+| ../categories/{category_id}/events/{event_id}/participants/{competitor_id}/ | `GET` `DELETE`       | Specific participant                                                | athletics.app |
 | /competitions/{competition_id}/registration/                                                            | `GET` `POST`         | Registration overview / create new registration                     | athletics.app |
 | /competitions/{competition_id}/registration/settings/                                                   | `GET` `PUT`          | Online entry settings, maximum # of athletes, available bib numbers | athletics.app |
 | /competitions/{competition_id}/registration/discounts/                                                  | `GET` `POST`         | Discounts & codes                                                   | athletics.app |
