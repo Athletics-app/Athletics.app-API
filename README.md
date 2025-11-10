@@ -92,31 +92,28 @@
 | /competitions/{competition_id}/registration/discounts/                                                  | `GET` `POST`         | Discounts & codes                                                   | athletics.app |
 | /competitions/{competition_id}/registration/payments/                                                   | `GET`                | Payment overview                                                    | athletics.app |
 | /competitions/{competition_id}/timetable/                                                               | `GET` `PUT`          | Timetable management                                                | athletics.app |
-| /competitions/{competition_id}/startgroups/                                                             | `GET` `PUT`          | Startgroups & heat seeding                                          | athletics.app |
 | /competitions/{competition_id}/results/settings/                                                        | `GET` `PUT`          | Results settings                                                    | athletics.app |
 | /competitions/{competition_id}/leaderboard/settings/                                                    | `GET` `PUT`          | Leaderboard settings                                                | athletics.app |
-| /competitions/{competition_id}/print/diplomas/                                                          | `GET`                | Set up diplomas                                                     | athletics.app |
-| /competitions/{competition_id}/print/startlists/                                                        | `GET`                | Print startlists                                                    | athletics.app |
-| /competitions/{competition_id}/print/bib-labels/                                                        | `GET`                | Print bib labels                                                    | athletics.app |
-| /competitions/{competition_id}/print/results/                                                           | `GET`                | Print results                                                       | athletics.app |
-| /competitions/{competition_id}/enter/results/                                                           | `GET` `POST`         | Enter results manually                                              | athletics.app |
-| /competitions/{competition_id}/narrowcasting/                                                           | `GET`                | Narrowcasting displays                                              | athletics.app |
+| /competitions/{competition_id}/print/diplomas/                                                          | `GET`                | Get a PDF file of diplomas (@TODO: this endpoint requires defining parameters) (Q: should we add this to the endpoint?)                                                     | athletics.app |
+| /competitions/{competition_id}/print/startlists/                                                        | `GET`                | Get a PDF file of startlists (@TODO: this endpoint requires defining parameters) (Q: should we add this to the endpoint?)                                                    | athletics.app |
+| /competitions/{competition_id}/print/bib-labels/                                                        | `GET`                | Get a PDF file of bib labels (Q: should we add this to the endpoint?)                                                   | athletics.app |
+| /competitions/{competition_id}/print/results/                                                           | `GET`                | Get a PDF file of results  (@TODO: this endpoint requires defining parameters) (Q: should we add this to the endpoint?)                                                      | athletics.app |
+| /competitions/{competition_id}/enter/results/                                                           | `GET` `POST` `DELETE`         | Enter results manually (Q: How should we handle this? should we use another endpoint?)                                              | athletics.app |
+| /competitions/{competition_id}/narrowcasting/                                                           | `GET`                | Narrowcasting displays (@TODO: this needs a lot more endpoints, to link screens, etc)                                              | athletics.app |
 | /competitions/{competition_id}/clubs/                                                                   | `GET`                | Clubs participating in the competition                              | athletics.app |
-| /competitions/{competition_id}/rights/                                                                  | `GET` `PUT`          | Rights management (who can edit/view what)                          | athletics.app |
+| /competitions/{competition_id}/permissions/                                                                  | `GET` `PUT` `DELETE` `POST`          | Rights management (who can edit/view what)                          | athletics.app |
 | /competitions/{competition_id}/competitors/                                                             | `GET` `POST`         | List of competitors / create new competitor                         | athletics.app |
 | /competitions/{competition_id}/competitors/{competitor_id}/                                             | `GET` `PUT` `DELETE` | Specific competitor                                                 | athletics.app |
-| /competitions/{competition_id}/competitors/{competitor_id}/history/                                     | `GET`                | Historical results                                                  | athletics.app |
-| /competitions/{competition_id}/rankings/                                                                | `GET`                | Competition rankings                                                | athletics.app |
+| /competitions/{competition_id}/competitors/{competitor_id}/history/                                     | `GET`                | History of all changes made to this competitor                                                  | athletics.app |
 | /competitions/{competition_id}/check-in/{athlete_id}                                                    | `POST`               | Check in of athletes                                                | Victor        |
-
-### Endpoint `teams`
-
-| Endpoint                            | Method               | Description                        | Contributor   |
-| ----------------------------------- | -------------------- | ---------------------------------- | ------------- |
-| /teams/                             | `GET` `POST`         | Teams within clubs or competitions | athletics.app |
-| /teams/{team_id}/                   | `GET` `PUT` `DELETE` | Team details                       | athletics.app |
-| /teams/{team_id}/members/           | `GET` `POST`         | Team members                       | athletics.app |
-| /teams/{team_id}/members/{user_id}/ | `GET` `DELETE`       | Individual team member             | athletics.app |
+| /competitions/{competition_id}/teams/                             | `GET` `POST`         | Teams within a competition | athletics.app |
+| /competitions/{competition_id}/teams/{team_id}/                   | `GET` `PUT` `DELETE` | Team details                       | athletics.app |
+| /competitions/{competition_id}/teams/{team_id}/members/           | `GET` `POST`         | Team members                       | athletics.app |
+| /competitions/{competition_id}/teams/{team_id}/members/{user_id}/ | `GET` `DELETE`       | Individual team member (should we do this, or should we just query a competitor?)             | athletics.app |
+| /competitions/{competition_id}/relayteams/                             | `GET` `POST`         | Relay teams within a competition | athletics.app |
+| /competitions/{competition_id}/relayteams/{team_id}/                   | `GET` `PUT` `DELETE` | Relay teams details                       | athletics.app |
+| /competitions/{competition_id}/relayteams/{team_id}/members/           | `GET` `POST`         | Relay teams members                       | athletics.app |
+| /competitions/{competition_id}/relayteams/{team_id}/members/{user_id}/ | `GET` `DELETE`       | Individual Relay teams member (should we do this, or should we just query a competitor?)             | athletics.app |
 
 ### Endpoint `media`
 
@@ -125,27 +122,12 @@
 | /media/            | `GET` `POST`   | General media upload/download | athletics.app |
 | /media/{media_id}/ | `GET` `DELETE` | Individual media file         | athletics.app |
 
-### Endpoint `stats`
-
-| Endpoint             | Method | Description                     | Contributor   |
-| -------------------- | ------ | ------------------------------- | ------------- |
-| /stats/              | `GET`  | General statistics / dashboards | athletics.app |
-| /stats/competitions/ | `GET`  | Competition statistics          | athletics.app |
-| /stats/users/        | `GET`  | User statistics                 | athletics.app |
-| /stats/clubs/        | `GET`  | Club statistics                 | athletics.app |
-
 ### Endpoint `notifications`
 
 | Endpoint                          | Method               | Description                                     | Contributor   |
 | --------------------------------- | -------------------- | ----------------------------------------------- | ------------- |
 | /notifications/                   | `GET` `POST`         | List of notifications / create new notification | athletics.app |
 | /notifications/{notification_id}/ | `GET` `PUT` `DELETE` | Specific notification                           | athletics.app |
-
-### Endpoint `search`
-
-| Endpoint | Method | Description                               | Contributor   |
-| -------- | ------ | ----------------------------------------- | ------------- |
-| /search/ | `GET`  | Search across competitions, events, users | athletics.app |
 
 ### Endpoint `athletes`
 
