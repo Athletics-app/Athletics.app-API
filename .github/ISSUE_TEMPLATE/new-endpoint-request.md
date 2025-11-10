@@ -2,8 +2,8 @@
 name: "New Endpoint Request"
 about: "Request a new API endpoint to be designed."
 title: "[New Endpoint] <short description>"
-labels: ["api-design", "needs-review"]
-assignees: ["RecourVictor"]
+labels: "api-design", "needs-review"
+assignees: "RecourVictor"
 ---
 
 ## 🧠 Before You Start
