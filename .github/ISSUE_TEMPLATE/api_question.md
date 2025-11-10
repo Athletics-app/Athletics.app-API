@@ -1,8 +1,11 @@
+---
 name: API Question / Clarification
 about: Use this template to ask a question or clarify an endpoint in the API documentation
 title: "[Question] "
 labels: question
 assignees: ''
+---
+
 
 ## Endpoint
 Which endpoint is your question about?  
