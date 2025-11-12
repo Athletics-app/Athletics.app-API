@@ -89,11 +89,15 @@ Retrieve all users.
 _None_
 
 ### Response
-[User DTO](../dto/users/userget.json)
+Path: users/userget.json
+<!-- JSON: dto/users/userget.json -->
 ```
 
 - Replace method/path/authorisation/contributor/description/query params/body/response links as needed.
 - Repeat block for each endpoint in that resource file.
+  
+> **Note:** The JSON response block is automatically generated from the corresponding DTO file (`dto/{resource}/{filename}.json`) whenever a commit is made. You do **not** need to manually paste JSON into the Markdown.
+  
 
 ### 3) DTOs: where & how to create them
 
