@@ -30,13 +30,32 @@ Create a new user.
 
 ### Body
 
-<!-- JSON: dto/users/userpost.json -->
+```json
+{
+  "email": "john.doe@gmail.com",
+  "firstName": "John",
+  "lastName": "Doe",
+  "birthDate": "2025-11-30",
+  "nationalityId": "NL",
+  "clubId": "CLUBID"
+}
+```
 
 [User Post DTO](../dto/users/userpost.json)
 
 ### Response
 
-<!-- JSON: dto/users/userget.json -->
+```json
+{
+  "id": "ID",
+  "email": "john.doe@gmail.com",
+  "firstName": "John",
+  "lastName": "Doe",
+  "birthDate": "2025-11-30",
+  "nationality": "NL",
+  "club": "CLUBGET"
+}
+```
 
 [User DTO](../dto/users/userget.json)
 
