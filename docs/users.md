@@ -17,7 +17,17 @@ _None_
 ### Response
 
 Path: users/userget.json
-<!-- JSON: dto/users/userget.json -->
+```json
+{
+  "id": "ID",
+  "email": "john.doe@gmail.com",
+  "firstName": "John",
+  "lastName": "Doe",
+  "birthDate": "2025-11-30",
+  "nationality": "NL",
+  "club": "CLUBGET"
+}
+```
 
 ## `POST` /users/
 
@@ -32,12 +42,31 @@ Create a new user.
 ### Body
 
 Path: users/userpost.json
-<!-- JSON: dto/users/userpost.json -->
+```json
+{
+  "email": "john.doe@gmail.com",
+  "firstName": "John",
+  "lastName": "Doe",
+  "birthDate": "2025-11-30",
+  "nationalityId": "NL",
+  "clubId": "CLUBID"
+}
+```
 
 ### Response
 
 Path: users/userget.json
-<!-- JSON: dto/users/userget.json -->
+```json
+{
+  "id": "ID",
+  "email": "john.doe@gmail.com",
+  "firstName": "John",
+  "lastName": "Doe",
+  "birthDate": "2025-11-30",
+  "nationality": "NL",
+  "club": "CLUBGET"
+}
+```
 
 ## `GET` /users/{user_id}/
 
@@ -56,7 +85,17 @@ _None_
 ### Response
 
 Path: users/userget.json
-<!-- JSON: dto/users/userget.json -->
+```json
+{
+  "id": "ID",
+  "email": "john.doe@gmail.com",
+  "firstName": "John",
+  "lastName": "Doe",
+  "birthDate": "2025-11-30",
+  "nationality": "NL",
+  "club": "CLUBGET"
+}
+```
 
 ## `PUT` /users/{user_id}/
 
@@ -71,12 +110,31 @@ Update a specific user by ID.
 ### Body
 
 Path: users/userpost.json
-<!-- JSON: dto/users/userpost.json -->
+```json
+{
+  "email": "john.doe@gmail.com",
+  "firstName": "John",
+  "lastName": "Doe",
+  "birthDate": "2025-11-30",
+  "nationalityId": "NL",
+  "clubId": "CLUBID"
+}
+```
 
 ### Response
 
 Path: users/userget.json
-<!-- JSON: dto/users/userget.json -->
+```json
+{
+  "id": "ID",
+  "email": "john.doe@gmail.com",
+  "firstName": "John",
+  "lastName": "Doe",
+  "birthDate": "2025-11-30",
+  "nationality": "NL",
+  "club": "CLUBGET"
+}
+```
 
 ## `DELETE` /users/{user_id}/
 
@@ -115,7 +173,17 @@ _None_
 ### Response
 
 Path: users/userget.json
-<!-- JSON: dto/users/userget.json -->
+```json
+{
+  "id": "ID",
+  "email": "john.doe@gmail.com",
+  "firstName": "John",
+  "lastName": "Doe",
+  "birthDate": "2025-11-30",
+  "nationality": "NL",
+  "club": "CLUBGET"
+}
+```
 
 ## `PUT` /users/{user_id}/profile
 
@@ -152,7 +220,17 @@ _None_
 ### Response
 
 Path: users/userget.json
-<!-- JSON: dto/users/userget.json -->
+```json
+{
+  "id": "ID",
+  "email": "john.doe@gmail.com",
+  "firstName": "John",
+  "lastName": "Doe",
+  "birthDate": "2025-11-30",
+  "nationality": "NL",
+  "club": "CLUBGET"
+}
+```
 
 ## `PUT` /users/{user_id}/preferences
 
@@ -189,7 +267,17 @@ _None_
 ### Response
 
 Path: users/userget.json
-<!-- JSON: dto/users/userget.json -->
+```json
+{
+  "id": "ID",
+  "email": "john.doe@gmail.com",
+  "firstName": "John",
+  "lastName": "Doe",
+  "birthDate": "2025-11-30",
+  "nationality": "NL",
+  "club": "CLUBGET"
+}
+```
 
 ## `POST` /users/{user_id}/media
 
