@@ -112,6 +112,8 @@ _None_
 
 ### Response
 
+<!-- JSON: dto/userget.json -->
+
 [User DTO](../dto/users/userget.json)
 
 ## `PUT` /users/{user_id}/profile
