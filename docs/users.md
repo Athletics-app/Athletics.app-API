@@ -10,6 +10,7 @@
 
 Retrieve all users.
 
+
 ### Body
 
 _None_
