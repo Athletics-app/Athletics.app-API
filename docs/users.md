@@ -16,7 +16,8 @@ _None_
 
 ### Response
 
-[User DTO](../dto/users/userget.json)
+Path: users/userget.json
+<!-- JSON: dto/users/userget.json -->
 
 ## `POST` /users/
 
@@ -30,34 +31,13 @@ Create a new user.
 
 ### Body
 
-```json
-{
-  "email": "john.doe@gmail.com",
-  "firstName": "John",
-  "lastName": "Doe",
-  "birthDate": "2025-11-30",
-  "nationalityId": "NL",
-  "clubId": "CLUBID"
-}
-```
-
-[User Post DTO](../dto/users/userpost.json)
+Path: users/userpost.json
+<!-- JSON: dto/users/userpost.json -->
 
 ### Response
 
-```json
-{
-  "id": "ID",
-  "email": "john.doe@gmail.com",
-  "firstName": "John",
-  "lastName": "Doe",
-  "birthDate": "2025-11-30",
-  "nationality": "NL",
-  "club": "CLUBGET"
-}
-```
-
-[User DTO](../dto/users/userget.json)
+Path: users/userget.json
+<!-- JSON: dto/users/userget.json -->
 
 ## `GET` /users/{user_id}/
 
@@ -75,7 +55,8 @@ _None_
 
 ### Response
 
-[User DTO](../dto/users/userget.json)
+Path: users/userget.json
+<!-- JSON: dto/users/userget.json -->
 
 ## `PUT` /users/{user_id}/
 
@@ -89,11 +70,13 @@ Update a specific user by ID.
 
 ### Body
 
-[User Put DTO](../dto/users/userpost.json)
+Path: users/userpost.json
+<!-- JSON: dto/users/userpost.json -->
 
 ### Response
 
-[User DTO](../dto/users/userget.json)
+Path: users/userget.json
+<!-- JSON: dto/users/userget.json -->
 
 ## `DELETE` /users/{user_id}/
 
@@ -131,7 +114,8 @@ _None_
 
 ### Response
 
-[User DTO](../dto/users/userget.json)
+Path: users/userget.json
+<!-- JSON: dto/users/userget.json -->
 
 ## `PUT` /users/{user_id}/profile
 
@@ -167,7 +151,8 @@ _None_
 
 ### Response
 
-[User DTO](../dto/users/userget.json)
+Path: users/userget.json
+<!-- JSON: dto/users/userget.json -->
 
 ## `PUT` /users/{user_id}/preferences
 
@@ -203,7 +188,8 @@ _None_
 
 ### Response
 
-[User DTO](../dto/users/userget.json)
+Path: users/userget.json
+<!-- JSON: dto/users/userget.json -->
 
 ## `POST` /users/{user_id}/media
 
