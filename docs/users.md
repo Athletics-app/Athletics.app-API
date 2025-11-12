@@ -30,9 +30,13 @@ Create a new user.
 
 ### Body
 
+<!-- JSON: dto/userpost.json -->
+
 [User Post DTO](../dto/users/userpost.json)
 
 ### Response
+
+<!-- JSON: dto/userget.json -->
 
 [User DTO](../dto/users/userget.json)
 
