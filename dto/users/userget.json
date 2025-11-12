@@ -5,5 +5,5 @@
     "lastName": "Doe",
     "birthDate": "2025-11-30",
     "nationality": "NL",
-    "club": "CLUBGET"
+    "club": "Path:../clubs/clubget.json"
 }
