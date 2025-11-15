@@ -193,20 +193,6 @@ For complex resources, use subheadings per endpoint group (e.g., ### Authenticat
 | /competitions/{competition_id}/relayteams/{team_id}/members/                | `GET` `POST`                | Relay teams members                                                                                                       | athletics.app |
 | /competitions/{competition_id}/relayteams/{team_id}/members/{user_id}/      | `GET` `DELETE`              | Individual Relay teams member (should we do this, or should we just query a competitor?)                                  | athletics.app |
 
-### Endpoint `media`
-
-| Endpoint           | Method         | Description                   | Contributor   |
-| ------------------ | -------------- | ----------------------------- | ------------- |
-| /media/            | `GET` `POST`   | General media upload/download | athletics.app |
-| /media/{media_id}/ | `GET` `DELETE` | Individual media file         | athletics.app |
-
-### Endpoint `notifications`
-
-| Endpoint                          | Method               | Description                                     | Contributor   |
-| --------------------------------- | -------------------- | ----------------------------------------------- | ------------- |
-| /notifications/                   | `GET` `POST`         | List of notifications / create new notification | athletics.app |
-| /notifications/{notification_id}/ | `GET` `PUT` `DELETE` | Specific notification                           | athletics.app |
-
 ### Endpoint `athletes`
 
 | Endpoint                        | Method | Description                                                             | Contributor |
