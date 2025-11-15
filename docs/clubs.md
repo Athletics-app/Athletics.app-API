@@ -2,15 +2,18 @@
 
 ## `GET` /clubs/
 
-| Method | Authorisation | Contributor   |
-| ------ | ------------- | ------------- |
-| `GET`  | Yes           | Atheltics.app, Victor  |
+| Method | Authorisation | Contributor           |
+| ------ | ------------- | --------------------- |
+| `GET`  | Yes           | Atheltics.app, Victor |
 
 ### Description
+
 Retrieve all clubs.
 
 ### Body
+
 _None_
 
 ### Response
+
 Path: clubs/clubget.json
