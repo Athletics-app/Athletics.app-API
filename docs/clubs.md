@@ -17,3 +17,10 @@ _None_
 ### Response
 
 Path: dto/clubs/clubget.json
+```json
+{
+  "id": "ID",
+  "name": "demo name",
+  "country": "NL"
+}
+```
