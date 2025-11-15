@@ -215,10 +215,6 @@ For complex resources, use subheadings per endpoint group (e.g., ### Authenticat
 | /athletes/{athlete_id}/records/ | `GET`  | Personal records, season records, club records                          | Victor      |
 | /athletes/{athlete_id}/events/  | `GET`  | Competitions for which the athlete is registered or has participated    | Victor      |
 
-### Endpoint `auth`
-
-Will be designed by Athletics.app
-
 ## Mermaid Diagram
 
 ```mermaid
