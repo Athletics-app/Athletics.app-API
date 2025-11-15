@@ -173,18 +173,8 @@ _None_
 
 ### Response
 
-Path: users/userget.json
-```json
-{
-  "id": "ID",
-  "email": "john.doe@gmail.com",
-  "firstName": "John",
-  "lastName": "Doe",
-  "birthDate": "2025-11-30",
-  "nationality": "NL",
-  "club": "CLUBGET"
-}
-```
+Path: users/userprofileget.json
+<!-- JSON: dto/users/userprofileget.json -->
 
 ## `PUT` /users/{user_id}/profile
 
@@ -220,18 +210,7 @@ _None_
 
 ### Response
 
-Path: users/userget.json
-```json
-{
-  "id": "ID",
-  "email": "john.doe@gmail.com",
-  "firstName": "John",
-  "lastName": "Doe",
-  "birthDate": "2025-11-30",
-  "nationality": "NL",
-  "club": "CLUBGET"
-}
-```
+TODO
 
 ## `PUT` /users/{user_id}/preferences
 
@@ -267,18 +246,7 @@ _None_
 
 ### Response
 
-Path: users/userget.json
-```json
-{
-  "id": "ID",
-  "email": "john.doe@gmail.com",
-  "firstName": "John",
-  "lastName": "Doe",
-  "birthDate": "2025-11-30",
-  "nationality": "NL",
-  "club": "CLUBGET"
-}
-```
+TODO
 
 ## `POST` /users/{user_id}/media
 
