@@ -143,6 +143,17 @@ Path: users/userprofileget.json
 Path: dto/users/userprofileget.json
 ```json
 {
+  "id": "ID",
+  "email": "john.doe@gmail.com",
+  "firstName": "John",
+  "lastName": "Doe",
+  "birthDate": "2025-11-30",
+  "nationality": "BE",
+  "language": "BE",
+  "gender": "MALE",
+  "athleteLicense": null,
+  "club": null,
+  "competitions": null
 }
 ```
 
