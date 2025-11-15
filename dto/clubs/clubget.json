@@ -1,5 +1,6 @@
 {
-    "id": "ID",
-    "name": "demo name",
-    "country": "NL"
+  "id": "ID",
+  "name": "demo name",
+  "shortName": "DN",
+  "country": "NL"
 }
