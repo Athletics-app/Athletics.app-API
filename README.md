@@ -7,16 +7,8 @@
 - [Quick step-by-step guide for adding/updating an API resource](#quick-step-by-step-guide-for-addingupdating-an-api-resource)
 - [HTTP Methods Legend](#http-methods-legend)
 - [Endpoints](#endpoints)
-  - [Users](#endpoint-users)
-  - [Clubs](#endpoint-clubs)
   - [Competitions](#endpoint-competitions)
-  - [Teams](#endpoint-teams)
-  - [Media](#endpoint-media)
-  - [Stats](#endpoint-stats)
-  - [Notifications](#endpoint-notifications)
-  - [Search](#endpoint-search)
   - [Athletes](#endpoint-athletes)
-  - [Auth](#endpoint-auth)
 - [Mermaid Diagram](#mermaid-diagram)
 
 ## Guidelines
