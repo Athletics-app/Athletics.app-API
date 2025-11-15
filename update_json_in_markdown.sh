@@ -3,130 +3,155 @@ set -e
 
 DOCS_DIR="docs"
 
-# Function to recursively replace "Path:..." fields inside JSON
+# Recursively process a JSON file and replace all "Path:..." references
 process_json_file() {
     local jsonfile="$1"
+    local depth="${2:-0}"
+    local max_depth=10
     
     if [ ! -f "$jsonfile" ]; then
-        echo "⚠️  JSON file not found: $jsonfile" >&2
         echo "null"
         return
     fi
     
-    # Read and format JSON
+    if [ "$depth" -ge "$max_depth" ]; then
+        echo "null"
+        return
+    fi
+    
     local content
-    content=$(jq . "$jsonfile" 2>/dev/null || echo "null")
+    content=$(cat "$jsonfile")
     
-    # Recursively replace "Path:..." values (max 10 levels to prevent infinite loops)
-    local max_iterations=10
-    local iteration=0
-    
-    while echo "$content" | grep -q '"Path:' && [ $iteration -lt $max_iterations ]; do
-        content=$(echo "$content" | perl -0777 -pe '
-            use strict;
-            use warnings;
-            
-            s/"Path:\s*([^"]+)"/do {
-                my $path = $1;
-                $path =~ s|^\s+||;  # trim leading whitespace
-                $path =~ s|\s+$||;  # trim trailing whitespace
-                
-                if (-f $path) {
-                    # Read the nested JSON file
-                    my $nested = `jq -c . "$path" 2>\/dev\/null || echo "null"`;
-                    chomp $nested;
-                    $nested;
-                } else {
-                    warn "⚠️  Nested JSON file not found: $path\n";
-                    "null";
-                }
-            }/ge;
-        ')
-        ((iteration++))
+    # Find all "Path: xxx" strings and replace them
+    while echo "$content" | grep -q '"Path:'; do
+        # Extract the first Path: reference
+        local path_ref
+        path_ref=$(echo "$content" | grep -o '"Path:[^"]*"' | head -1 | sed 's/"Path://;s/"//' | xargs)
+        
+        if [ -z "$path_ref" ]; then
+            break
+        fi
+        
+        # Get the nested content
+        local nested_content
+        if [ -f "$path_ref" ]; then
+            nested_content=$(process_json_file "$path_ref" $((depth + 1)))
+            # Remove newlines for inline replacement
+            nested_content=$(echo "$nested_content" | jq -c . 2>/dev/null || echo "null")
+        else
+            nested_content="null"
+        fi
+        
+        # Replace in content (escape for sed)
+        local search_pattern="\"Path: *${path_ref}\""
+        content=$(echo "$content" | sed "s|\"Path: *${path_ref}\"|${nested_content}|")
     done
     
-    # Pretty-print the final result
+    # Pretty print the result
     echo "$content" | jq . 2>/dev/null || echo "$content"
 }
 
-# Export function so it can be used in subshells
 export -f process_json_file
 
 echo "🔄 Processing Markdown files in $DOCS_DIR..."
 echo ""
 
-# Loop through all Markdown files in docs/
+# Process each markdown file
 find "$DOCS_DIR" -name "*.md" | while read -r mdfile; do
     echo "📄 Processing: $mdfile"
-    TMP="$mdfile.tmp"
-    cp "$mdfile" "$TMP"
     
-    # Use Perl to process the file
-    perl -i -0777 -pe '
-        use strict;
-        use warnings;
-        
-        my $updated = 0;
-        
-        # 1) Replace <!-- JSON: path --> markers (new conversions)
-        while (/<!-- JSON:\s*([^\s]+)\s*-->/g) {
-            my $jsonfile = $1;
-            
-            if (-f $jsonfile) {
-                # Get processed JSON with nesting
-                my $content = `bash -c '\''process_json_file "$jsonfile"'\''`;
-                chomp $content;
-                
-                # Replace marker with code block
-                my $block = "Path: $jsonfile\n\`\`\`json\n$content\n\`\`\`";
-                s/<!-- JSON:\s*\Q$jsonfile\E\s*-->/$block/g;
-                
-                print STDERR "  ✓ Converted marker: $jsonfile\n";
-                $updated = 1;
-            } else {
-                warn "  ⚠️  JSON file not found: $jsonfile\n";
-            }
-        }
-        
-        # 2) Update existing Path: ... blocks
-        while (/Path:\s*([^\n]+)\n\`\`\`json\n(.*?)\n\`\`\`/sg) {
-            my $jsonfile = $1;
-            my $oldcontent = $2;
-            
-            # Trim whitespace from path
-            $jsonfile =~ s/^\s+|\s+$//g;
-            
-            if (-f $jsonfile) {
-                # Get processed JSON with nesting
-                my $newcontent = `bash -c '\''process_json_file "$jsonfile"'\''`;
-                chomp $newcontent;
-                
-                # Only replace if content actually changed
-                if ($oldcontent ne $newcontent) {
-                    # Escape special regex characters in old content for safe replacement
-                    my $escaped_old = quotemeta($oldcontent);
-                    s/(Path:\s*\Q$jsonfile\E\n\`\`\`json\n)$escaped_old(\n\`\`\`)/$1$newcontent$2/s;
-                    
-                    print STDERR "  ✓ Updated block: $jsonfile\n";
-                    $updated = 1;
-                }
-            } else {
-                warn "  ⚠️  JSON file not found: $jsonfile\n";
-            }
-        }
-        
-        if (!$updated) {
-            print STDERR "  → No changes needed\n";
-        }
-    ' "$TMP" 2>&1
+    updated=0
     
-    # Only overwrite if file changed
-    if ! cmp -s "$mdfile" "$TMP"; then
-        mv "$TMP" "$mdfile"
+    # Create temp file
+    TMP="${mdfile}.tmp"
+    
+    # Process the file line by line, but handle multi-line blocks
+    {
+        in_json_block=0
+        json_path=""
+        json_content=""
+        
+        while IFS= read -r line || [ -n "$line" ]; do
+            # Check for Path: line
+            if [[ "$line" =~ ^Path:[[:space:]]*(.+)$ ]]; then
+                json_path="${BASH_REMATCH[1]}"
+                json_path=$(echo "$json_path" | xargs) # trim whitespace
+                echo "$line"
+                continue
+            fi
+            
+            # Check for start of json block
+            if [[ "$line" == '```json' ]] && [ -n "$json_path" ]; then
+                in_json_block=1
+                json_content=""
+                echo "$line"
+                continue
+            fi
+            
+            # Check for end of json block
+            if [[ "$line" == '```' ]] && [ "$in_json_block" -eq 1 ]; then
+                in_json_block=0
+                
+                # Process the JSON file
+                if [ -f "$json_path" ]; then
+                    new_json=$(process_json_file "$json_path")
+                    echo "$new_json"
+                    echo "  ✓ Updated: $json_path" >&2
+                    updated=1
+                else
+                    echo "$json_content"
+                    echo "  ⚠️  Not found: $json_path" >&2
+                fi
+                
+                echo "$line"
+                json_path=""
+                continue
+            fi
+            
+            # If we're in a json block, collect but don't output yet
+            if [ "$in_json_block" -eq 1 ]; then
+                json_content="${json_content}${line}"$'\n'
+                continue
+            fi
+            
+            # Handle <!-- JSON: xxx --> markers
+            if [[ "$line" =~ \<!--[[:space:]]*JSON:[[:space:]]*([^[:space:]]+)[[:space:]]*--\> ]]; then
+                marker_path="${BASH_REMATCH[1]}"
+                
+                if [ -f "$marker_path" ]; then
+                    new_json=$(process_json_file "$marker_path")
+                    echo "Path: $marker_path"
+                    echo '```json'
+                    echo "$new_json"
+                    echo '```'
+                    echo "  ✓ Converted marker: $marker_path" >&2
+                    updated=1
+                else
+                    echo "$line"
+                    echo "  ⚠️  Not found: $marker_path" >&2
+                fi
+                continue
+            fi
+            
+            # Regular line
+            echo "$line"
+        done < "$mdfile"
+    } > "$TMP" 2>&1
+    
+    # Filter stderr from stdout and show it
+    grep "^  " "$TMP" >&2 || true
+    grep -v "^  " "$TMP" > "${TMP}.clean"
+    
+    # Replace original if changed
+    if ! cmp -s "$mdfile" "${TMP}.clean"; then
+        mv "${TMP}.clean" "$mdfile"
+        echo "  → File updated"
     else
-        rm "$TMP"
+        rm "${TMP}.clean"
+        echo "  → No changes"
     fi
     
+    rm -f "$TMP"
     echo ""
 done
 
