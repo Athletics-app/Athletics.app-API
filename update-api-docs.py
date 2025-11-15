@@ -114,6 +114,11 @@ def main():
         print(f"No markdown files found in {DOCS_DIR}")
         return
     
+    print(f"Found {len(md_files)} markdown file(s):")
+    for f in md_files:
+        print(f"  - {f}")
+    print()
+    
     for md_path in md_files:
         print(f"📄 Processing: {md_path}")
         
