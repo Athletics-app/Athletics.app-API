@@ -29,6 +29,7 @@ Path: dto/users/userget.json
   "club": {
     "id": "ID",
     "name": "demo name",
+    "shortName": "DN",
     "country": "NL"
   }
 }
@@ -72,6 +73,7 @@ Path: dto/users/userget.json
   "club": {
     "id": "ID",
     "name": "demo name",
+    "shortName": "DN",
     "country": "NL"
   }
 }
@@ -105,6 +107,7 @@ Path: dto/users/userget.json
   "club": {
     "id": "ID",
     "name": "demo name",
+    "shortName": "DN",
     "country": "NL"
   }
 }
@@ -148,6 +151,7 @@ Path: dto/users/userget.json
   "club": {
     "id": "ID",
     "name": "demo name",
+    "shortName": "DN",
     "country": "NL"
   }
 }
@@ -209,6 +213,7 @@ Path: dto/users/userprofileget.json
   "club": {
     "id": "ID",
     "name": "demo name",
+    "shortName": "DN",
     "country": "NL"
   },
   "competitions": {
@@ -222,6 +227,7 @@ Path: dto/users/userprofileget.json
     "club": {
       "id": "ID",
       "name": "demo name",
+      "shortName": "DN",
       "country": "NL"
     },
     "category": "SEN",

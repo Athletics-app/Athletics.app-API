@@ -17,6 +17,14 @@ _None_
 ### Response
 
 Path: dto/clubs/clubget.json
+```json
+{
+  "id": "ID",
+  "name": "demo name",
+  "shortName": "DN",
+  "country": "NL"
+}
+```
 
 ```json
 {
@@ -39,10 +47,25 @@ Create a club.
 ### Body
 
 Path: dto/clubs/clubpost.json
+```json
+{
+  "name": "demo name",
+  "shortName": "DN",
+  "country": "NL"
+}
+```
 
 ### Response
 
 Path: dto/clubs/clubget.json
+```json
+{
+  "id": "ID",
+  "name": "demo name",
+  "shortName": "DN",
+  "country": "NL"
+}
+```
 
 ## `GET` /clubs/{club_id}
 
@@ -61,6 +84,14 @@ _None_
 ### Response
 
 Path: dto/clubs/clubget.json
+```json
+{
+  "id": "ID",
+  "name": "demo name",
+  "shortName": "DN",
+  "country": "NL"
+}
+```
 
 ## `PUT` /clubs/{club_id}
 
@@ -75,10 +106,25 @@ Update a specific club.
 ### Body
 
 Path: dto/clubs/clubpost.json
+```json
+{
+  "name": "demo name",
+  "shortName": "DN",
+  "country": "NL"
+}
+```
 
 ### Response
 
 Path: dto/clubs/clubget.json
+```json
+{
+  "id": "ID",
+  "name": "demo name",
+  "shortName": "DN",
+  "country": "NL"
+}
+```
 
 ## `DELETE` /clubs/{club_id}
 
@@ -117,6 +163,13 @@ _None_
 ### Response
 
 Path: dto/athletes/athleteget.json
+```json
+{
+  "name": "John",
+  "lastName": "Doe",
+  "TODO": "expand this dto"
+}
+```
 
 ## `GET` /clubs/{club_id}/startdate/{start_date}/enddate/{end_date}
 
