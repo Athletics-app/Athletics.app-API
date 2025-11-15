@@ -174,7 +174,10 @@ _None_
 ### Response
 
 Path: users/userprofileget.json
-<!-- JSON: dto/users/userprofileget.json -->
+Path: dto/users/userprofileget.json
+```json
+
+```
 
 ## `PUT` /users/{user_id}/profile
 
