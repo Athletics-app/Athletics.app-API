@@ -16,4 +16,4 @@ _None_
 
 ### Response
 
-Path: clubs/clubget.json
+Path: dto/clubs/clubget.json

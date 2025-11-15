@@ -26,7 +26,11 @@ Path: dto/users/userget.json
   "lastName": "Doe",
   "birthDate": "2025-11-30",
   "nationality": "NL",
-  "club": "Path:../clubs/clubget.json"
+  "club": {
+    "id": "ID",
+    "name": "demo name",
+    "country": "NL"
+  }
 }
 ```
 
@@ -65,7 +69,11 @@ Path: dto/users/userget.json
   "lastName": "Doe",
   "birthDate": "2025-11-30",
   "nationality": "NL",
-  "club": "Path:../clubs/clubget.json"
+  "club": {
+    "id": "ID",
+    "name": "demo name",
+    "country": "NL"
+  }
 }
 ```
 
@@ -94,7 +102,11 @@ Path: dto/users/userget.json
   "lastName": "Doe",
   "birthDate": "2025-11-30",
   "nationality": "NL",
-  "club": "Path:../clubs/clubget.json"
+  "club": {
+    "id": "ID",
+    "name": "demo name",
+    "country": "NL"
+  }
 }
 ```
 
@@ -133,7 +145,11 @@ Path: dto/users/userget.json
   "lastName": "Doe",
   "birthDate": "2025-11-30",
   "nationality": "NL",
-  "club": "Path:../clubs/clubget.json"
+  "club": {
+    "id": "ID",
+    "name": "demo name",
+    "country": "NL"
+  }
 }
 ```
 
@@ -184,9 +200,33 @@ Path: dto/users/userprofileget.json
   "nationality": "BE",
   "language": "BE",
   "gender": "MALE",
-  "athleteLicense": "Path:../athletes/athleteLicenseget.json",
-  "club": "Path:../clubs/clubget.json",
-  "competitions": "Path:../users/usercompetitionsget.json"
+  "athleteLicense": {
+    "federation": "VAL",
+    "startDate": "01-11-2025",
+    "endDate": "31-10-2026",
+    "bibNumber": 123
+  },
+  "club": {
+    "id": "ID",
+    "name": "demo name",
+    "country": "NL"
+  },
+  "competitions": {
+    "name": "Avondmeeting",
+    "startTime": "10-10-2025-14:00",
+    "endTime": "10-10-2025-18:00",
+    "organizer": "Belgian Athletics",
+    "bibNumber": 123,
+    "firstName": "John",
+    "lastName": "Doe",
+    "club": {
+      "id": "ID",
+      "name": "demo name",
+      "country": "NL"
+    },
+    "category": "SEN",
+    "disciplines": "TODO"
+  }
 }
 ```
 

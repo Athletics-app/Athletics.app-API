@@ -7,8 +7,12 @@ from pathlib import Path
 
 DOCS_DIR = "docs"
 
-def read_json_file(json_path):
-    """Read and parse a JSON file."""
+def read_json_file(json_path, depth=0, max_depth=10):
+    """Read and parse a JSON file, recursively replacing Path: references."""
+    if depth >= max_depth:
+        print(f"  ⚠️  Max nesting depth reached for: {json_path}", file=sys.stderr)
+        return None
+    
     if not os.path.isfile(json_path):
         print(f"  ⚠️  File not found: {json_path}", file=sys.stderr)
         return None
@@ -16,7 +20,33 @@ def read_json_file(json_path):
     try:
         with open(json_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
-        return data
+        
+        # Recursively replace "Path:..." values
+        def replace_paths(obj, current_file_dir):
+            if isinstance(obj, dict):
+                return {k: replace_paths(v, current_file_dir) for k, v in obj.items()}
+            elif isinstance(obj, list):
+                return [replace_paths(item, current_file_dir) for item in obj]
+            elif isinstance(obj, str) and obj.startswith("Path:"):
+                # Extract the path (remove "Path:" prefix and whitespace)
+                nested_path = obj[5:].strip()
+                
+                # Resolve relative paths
+                if nested_path.startswith('../') or nested_path.startswith('./'):
+                    nested_path = os.path.normpath(os.path.join(current_file_dir, nested_path))
+                
+                # Recursively load the nested file
+                nested_data = read_json_file(nested_path, depth + 1, max_depth)
+                return nested_data if nested_data is not None else None
+            else:
+                return obj
+        
+        # Get the directory of the current JSON file for resolving relative paths
+        file_dir = os.path.dirname(json_path)
+        result = replace_paths(data, file_dir)
+        
+        return result
+        
     except json.JSONDecodeError as e:
         print(f"  ⚠️  Invalid JSON in {json_path}: {e}", file=sys.stderr)
         return None

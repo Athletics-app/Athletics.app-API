@@ -89,15 +89,13 @@ Retrieve all users.
 _None_
 
 ### Response
-Path: users/userget.json
-<!-- JSON: dto/users/userget.json -->
+Path: dto/users/userget.json
 ```
 
 - Replace method/path/authorisation/contributor/description/query params/body/response links as needed.
 - Repeat block for each endpoint in that resource file.
-  
+
 > **Note:** The JSON response block is automatically generated from the corresponding DTO file (`dto/{resource}/{filename}.json`) whenever a commit is made. You do **not** need to manually paste JSON into the Markdown.
-  
 
 ### 3) DTOs: where & how to create them
 
@@ -117,11 +115,11 @@ Example DTO that nests a club DTO by name:
 
 ```
 {
-  "club": "CLUBGET"
+  "club": "Path:../clubs/clubget.json"
 }
 ```
 
-club: "CLUBGET" means: use the DTO file `dto/clubs/clubget.json` for the club object.
+club: "Path:../clubs/clubget.json" means: use the DTO file `dto/clubs/clubget.json` for the club object.
 
 ### 5. Grouping & layout advice
 
