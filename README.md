@@ -111,7 +111,7 @@ Path: dto/users/userget.json
 
 In documentation you can show nesting by referencing the DTO name (not necessarily $ref syntax). For the live API we will expand to full objects, but for doc clarity this shorthand is allowed.
 
-Example DTO that nests a club DTO by name:
+Example DTO that nests a club DTO by the DTO path:
 
 ```
 {
@@ -150,26 +150,6 @@ For complex resources, use subheadings per endpoint group (e.g., ### Authenticat
 > Once all existing tables have been migrated, this section will be removed.
 >
 > For detailed instructions, see the [Documentation Workflow Guide](#quick-step-by-step-guide-for-addingupdating-an-api-resource).
-
-#### Endpoint `users`
-
-| Endpoint                           | Method               | Description                     | Contributor   |
-| ---------------------------------- | -------------------- | ------------------------------- | ------------- |
-| /users/                            | `GET` `POST`         | List of users / create new user | athletics.app |
-| /users/{user_id}/                  | `GET` `PUT` `DELETE` | Specific user                   | athletics.app |
-| /users/{user_id}/profile/          | `GET` `PUT`          | Personal profile information    | athletics.app |
-| /users/{user_id}/preferences/      | `GET` `PUT`          | User settings / preferences     | athletics.app |
-| /users/{user_id}/media/            | `GET` `POST`         | Upload/download user media      | athletics.app |
-| /users/{user_id}/media/{media_id}/ | `GET` `DELETE`       | Individual media file           | athletics.app |
-
-### Endpoint `clubs`
-
-| Endpoint                                                   | Method               | Description                                                                     | Contributor   |
-| ---------------------------------------------------------- | -------------------- | ------------------------------------------------------------------------------- | ------------- |
-| /clubs/                                                    | `GET` `POST`         | List of clubs / create new club                                                 | athletics.app |
-| /clubs/{club_id}/                                          | `GET` `PUT` `DELETE` | Club details                                                                    | athletics.app |
-| /clubs/{club_id}/members                                   | `GET`                | Members of the club                                                             | Victor        |
-| /clubs/{club_id}/startdate/{start_date}/enddate/{end_date} | `GET`                | Registered athletes or results of athletes from a club with start and end dates | Victor        |
 
 ### Endpoint `competitions`
 

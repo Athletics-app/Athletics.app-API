@@ -325,3 +325,39 @@ TODO
 ### Response
 
 TODO
+
+## `GET` /users/{user_id}/media/{media_id}/
+
+| Method | Authorisation | Contributor   |
+| ------ | ------------- | ------------- |
+| `GET`  | Yes           | athletics.app |
+
+### Description
+
+Download specific user media
+
+### Body
+
+_None_
+
+### Response
+
+TODO
+
+## `DELETE` /users/{user_id}/media{media_id}/
+
+| Method | Authorisation | Contributor   |
+| ------ | ------------- | ------------- |
+| `DELETE` | Yes           | athletics.app |
+
+### Description
+
+Delete individual media file
+
+### Body
+
+TODO
+
+### Response
+
+TODO

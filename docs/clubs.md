@@ -26,14 +26,6 @@ Path: dto/clubs/clubget.json
 }
 ```
 
-```json
-{
-  "id": "ID",
-  "name": "demo name",
-  "country": "NL"
-}
-```
-
 ## `POST` /clubs/
 
 | Method | Authorisation | Contributor           |
