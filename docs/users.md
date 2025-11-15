@@ -20,14 +20,8 @@ _None_
 Path: users/userget.json
 ```json
 {
-  "id": "ID",
-  "email": "john.doe@gmail.com",
-  "firstName": "John",
-  "lastName": "Doe",
-  "birthDate": "2025-11-30",
-  "nationality": "NL",
-  "club": "CLUBGET"
 }
+
 ```
 
 ## `POST` /users/
@@ -45,13 +39,8 @@ Create a new user.
 Path: users/userpost.json
 ```json
 {
-  "email": "john.doe@gmail.com",
-  "firstName": "John",
-  "lastName": "Doe",
-  "birthDate": "2025-11-30",
-  "nationalityId": "NL",
-  "clubId": "CLUBID"
 }
+
 ```
 
 ### Response
@@ -59,14 +48,8 @@ Path: users/userpost.json
 Path: users/userget.json
 ```json
 {
-  "id": "ID",
-  "email": "john.doe@gmail.com",
-  "firstName": "John",
-  "lastName": "Doe",
-  "birthDate": "2025-11-30",
-  "nationality": "NL",
-  "club": "CLUBGET"
 }
+
 ```
 
 ## `GET` /users/{user_id}/
@@ -88,14 +71,8 @@ _None_
 Path: users/userget.json
 ```json
 {
-  "id": "ID",
-  "email": "john.doe@gmail.com",
-  "firstName": "John",
-  "lastName": "Doe",
-  "birthDate": "2025-11-30",
-  "nationality": "NL",
-  "club": "CLUBGET"
 }
+
 ```
 
 ## `PUT` /users/{user_id}/
@@ -113,13 +90,8 @@ Update a specific user by ID.
 Path: users/userpost.json
 ```json
 {
-  "email": "john.doe@gmail.com",
-  "firstName": "John",
-  "lastName": "Doe",
-  "birthDate": "2025-11-30",
-  "nationalityId": "NL",
-  "clubId": "CLUBID"
 }
+
 ```
 
 ### Response
@@ -127,14 +99,8 @@ Path: users/userpost.json
 Path: users/userget.json
 ```json
 {
-  "id": "ID",
-  "email": "john.doe@gmail.com",
-  "firstName": "John",
-  "lastName": "Doe",
-  "birthDate": "2025-11-30",
-  "nationality": "NL",
-  "club": "CLUBGET"
 }
+
 ```
 
 ## `DELETE` /users/{user_id}/
@@ -176,7 +142,8 @@ _None_
 Path: users/userprofileget.json
 Path: dto/users/userprofileget.json
 ```json
-
+{
+}
 ```
 
 ## `PUT` /users/{user_id}/profile
