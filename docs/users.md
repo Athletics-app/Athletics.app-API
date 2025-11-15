@@ -151,9 +151,9 @@ Path: dto/users/userprofileget.json
   "nationality": "BE",
   "language": "BE",
   "gender": "MALE",
-  "athleteLicense": null,
-  "club": null,
-  "competitions": null
+  "athleteLicense": "Path:../athletes/athleteLicenseget.json",
+  "club": "Path:../clubs/clubget.json",
+  "competitions": "Path:../users/usercompetitionsget.json"
 }
 ```
 
