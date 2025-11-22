@@ -6,9 +6,6 @@
 - [Contributing - New Endpoint Requests](#contributing---new-endpoint-requests)
 - [Quick step-by-step guide for adding/updating an API resource](#quick-step-by-step-guide-for-addingupdating-an-api-resource)
 - [HTTP Methods Legend](#http-methods-legend)
-- [Endpoints](#endpoints)
-  - [Competitions](#endpoint-competitions)
-  - [Athletes](#endpoint-athletes)
 - [Mermaid Diagram](#mermaid-diagram)
 
 ## Guidelines
@@ -129,69 +126,6 @@ For complex resources, use subheadings per endpoint group (e.g., ### Authenticat
 | `POST`   | Create new data. Use this method to create a new item or record.                                  |
 | `PUT`    | Update existing data. Use this method to fully update an existing item.                           |
 | `DELETE` | Delete data. Use this method to remove an item from the server.                                   |
-
-## Endpoints
-
-> ⚠️ **IMPORTANT NOTICE**
->
-> The endpoint tables below are still in transition and will soon be moved into separate files under the `docs/{resource}.md` structure.
->
-> 🔹 **Do not add new endpoints here.**  
-> 🔹 Instead, follow the new documentation workflow:
->
-> Once all existing tables have been migrated, this section will be removed.
->
-> For detailed instructions, see the [Documentation Workflow Guide](#quick-step-by-step-guide-for-addingupdating-an-api-resource).
-
-### Endpoint `competitions`
-
-| Endpoint                                                                    | Method                      | Description                                                                                                               | Contributor   |
-| --------------------------------------------------------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| /competitions/                                                              | `GET` `POST`                | List of competitions / create new competition                                                                             | athletics.app |
-| /competitions/{competition_id}/                                             | `GET` `PUT` `DELETE`        | Specific competition                                                                                                      | athletics.app |
-| /competitions/{competition_id}/categories/                                  | `GET` `POST`                | Categories within a competition                                                                                           | athletics.app |
-| ../categories/{category_id}/                                                | `GET` `PUT` `DELETE`        | Specific category                                                                                                         | athletics.app |
-| ../categories/{category_id}/events/                                         | `GET` `POST`                | Events within a category                                                                                                  | athletics.app |
-| ../categories/{category_id}/events/{event_id}/                              | `GET` `PUT` `DELETE`        | Specific event                                                                                                            | athletics.app |
-| ../categories/{category_id}/events/{event_id}/results/                      | `GET` `POST`                | Event results                                                                                                             | athletics.app |
-| ../categories/{category_id}/events/{event_id}/results/{result_id}/          | `GET` `PUT` `DELETE`        | Individual result                                                                                                         | athletics.app |
-| ../categories/{category_id}/events/{event_id}/participants/                 | `GET` `POST`                | Event participants                                                                                                        | athletics.app |
-| ../categories/{category_id}/events/{event_id}/participants/{competitor_id}/ | `GET` `DELETE`              | Specific participant                                                                                                      | athletics.app |
-| /competitions/{competition_id}/registration/                                | `GET` `POST`                | Registration overview / create new registration                                                                           | athletics.app |
-| /competitions/{competition_id}/registration/settings/                       | `GET` `PUT`                 | Online entry settings, maximum # of athletes, available bib numbers                                                       | athletics.app |
-| /competitions/{competition_id}/registration/discounts/                      | `GET` `POST`                | Discounts & codes                                                                                                         | athletics.app |
-| /competitions/{competition_id}/registration/payments/                       | `GET`                       | Payment overview                                                                                                          | athletics.app |
-| /competitions/{competition_id}/timetable/                                   | `GET` `PUT`                 | Timetable management                                                                                                      | athletics.app |
-| /competitions/{competition_id}/results/settings/                            | `GET` `PUT`                 | Results settings                                                                                                          | athletics.app |
-| /competitions/{competition_id}/leaderboard/settings/                        | `GET` `PUT`                 | Leaderboard settings                                                                                                      | athletics.app |
-| /competitions/{competition_id}/print/diplomas/                              | `GET`                       | Get a PDF file of diplomas (@TODO: this endpoint requires defining parameters) (Q: should we add this to the endpoint?)   | athletics.app |
-| /competitions/{competition_id}/print/startlists/                            | `GET`                       | Get a PDF file of startlists (@TODO: this endpoint requires defining parameters) (Q: should we add this to the endpoint?) | athletics.app |
-| /competitions/{competition_id}/print/bib-labels/                            | `GET`                       | Get a PDF file of bib labels (Q: should we add this to the endpoint?)                                                     | athletics.app |
-| /competitions/{competition_id}/print/results/                               | `GET`                       | Get a PDF file of results (@TODO: this endpoint requires defining parameters) (Q: should we add this to the endpoint?)    | athletics.app |
-| /competitions/{competition_id}/enter/results/                               | `GET` `POST` `DELETE`       | Enter results manually (Q: How should we handle this? should we use another endpoint?)                                    | athletics.app |
-| /competitions/{competition_id}/narrowcasting/                               | `GET`                       | Narrowcasting displays (@TODO: this needs a lot more endpoints, to link screens, etc)                                     | athletics.app |
-| /competitions/{competition_id}/clubs/                                       | `GET`                       | Clubs participating in the competition                                                                                    | athletics.app |
-| /competitions/{competition_id}/permissions/                                 | `GET` `PUT` `DELETE` `POST` | Rights management (who can edit/view what)                                                                                | athletics.app |
-| /competitions/{competition_id}/competitors/                                 | `GET` `POST`                | List of competitors / create new competitor                                                                               | athletics.app |
-| /competitions/{competition_id}/competitors/{competitor_id}/                 | `GET` `PUT` `DELETE`        | Specific competitor                                                                                                       | athletics.app |
-| /competitions/{competition_id}/competitors/{competitor_id}/history/         | `GET`                       | History of all changes made to this competitor                                                                            | athletics.app |
-| /competitions/{competition_id}/check-in/{athlete_id}                        | `POST`                      | Check in of athletes                                                                                                      | Victor        |
-| /competitions/{competition_id}/teams/                                       | `GET` `POST`                | Teams within a competition                                                                                                | athletics.app |
-| /competitions/{competition_id}/teams/{team_id}/                             | `GET` `PUT` `DELETE`        | Team details                                                                                                              | athletics.app |
-| /competitions/{competition_id}/teams/{team_id}/members/                     | `GET` `POST`                | Team members                                                                                                              | athletics.app |
-| /competitions/{competition_id}/teams/{team_id}/members/{user_id}/           | `GET` `DELETE`              | Individual team member (should we do this, or should we just query a competitor?)                                         | athletics.app |
-| /competitions/{competition_id}/relayteams/                                  | `GET` `POST`                | Relay teams within a competition                                                                                          | athletics.app |
-| /competitions/{competition_id}/relayteams/{team_id}/                        | `GET` `PUT` `DELETE`        | Relay teams details                                                                                                       | athletics.app |
-| /competitions/{competition_id}/relayteams/{team_id}/members/                | `GET` `POST`                | Relay teams members                                                                                                       | athletics.app |
-| /competitions/{competition_id}/relayteams/{team_id}/members/{user_id}/      | `GET` `DELETE`              | Individual Relay teams member (should we do this, or should we just query a competitor?)                                  | athletics.app |
-
-### Endpoint `athletes`
-
-| Endpoint                        | Method | Description                                                             | Contributor |
-| ------------------------------- | ------ | ----------------------------------------------------------------------- | ----------- |
-| /athletes/{athlete_id}/results/ | `GET`  | All results for an athlete (filterable by season, discipline, location) | Victor      |
-| /athletes/{athlete_id}/records/ | `GET`  | Personal records, season records, club records                          | Victor      |
-| /athletes/{athlete_id}/events/  | `GET`  | Competitions for which the athlete is registered or has participated    | Victor      |
 
 ## Mermaid Diagram
 
