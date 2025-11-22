@@ -1,7 +1,5 @@
 # Competitions
 
-# API Endpoints Documentation
-
 ## `GET` /competitions/
 
 | Method | Authorisation | Contributor   |

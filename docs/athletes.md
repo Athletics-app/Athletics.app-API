@@ -1,7 +1,5 @@
 # Athletes
 
-# Athlete API Endpoints Documentation
-
 ## `GET` /athletes/{athlete_id}/results/
 
 | Method | Authorisation | Contributor |
