@@ -4,9 +4,9 @@
     "firstName": "John",
     "lastName": "Doe",
     "birthDate": "2025-11-30",
-    "nationality": "BE",
-    "language": "BE",
+    "nationality": "Path:../nationalities/nationalityget.json",
     "gender": "MALE",
+    "language": "Path:../languages/languageget.json",
     "athleteLicense": "Path:../athletes/athleteLicenseget.json",
     "club": "Path:../clubs/clubget.json",
     "competitions": "Path:../users/usercompetitionsget.json"

@@ -4,5 +4,6 @@
     "lastName": "Doe",
     "birthDate": "2025-11-30",
     "nationalityId": "NL",
-    "clubId": "CLUBID"
+    "clubId": "CLUBID",
+    "password": "123456789"
 }

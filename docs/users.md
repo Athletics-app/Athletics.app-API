@@ -10,7 +10,6 @@
 
 Retrieve all users.
 
-
 ### Body
 
 _None_
@@ -245,6 +244,7 @@ Path: dto/users/userprofileget.json
 ### Description
 
 Update personal user info by ID.
+> @athletics.app do we need this endpoint??
 
 ### Body
 
@@ -258,7 +258,7 @@ TODO
 
 | Method | Authorisation | Contributor   |
 | ------ | ------------- | ------------- |
-| `GET`  | Yes           | athletics.app |
+| `GET`  | Yes           | athletics.app, RecourVictor |
 
 ### Description
 
@@ -270,7 +270,7 @@ _None_
 
 ### Response
 
-TODO
+Path: dto/users/userpreferencesget.json
 
 ## `PUT` /users/{user_id}/preferences
 
@@ -284,11 +284,11 @@ Update user settings / preferences
 
 ### Body
 
-TODO
+Path: dto/users/userpreferencespost.json
 
 ### Response
 
-TODO
+Path: dto/users/userpreferencesget.json
 
 ## `GET` /users/{user_id}/media
 
@@ -306,7 +306,7 @@ _None_
 
 ### Response
 
-TODO
+Path: dto/media/mediaget.json
 
 ## `POST` /users/{user_id}/media
 
@@ -320,11 +320,11 @@ Upload user media
 
 ### Body
 
-TODO
+Filestream
 
 ### Response
 
-TODO
+Path: dto/media/mediaget.json
 
 ## `GET` /users/{user_id}/media/{media_id}/
 
@@ -342,7 +342,7 @@ _None_
 
 ### Response
 
-TODO
+Path: dto/media/mediaget.json
 
 ## `DELETE` /users/{user_id}/media{media_id}/
 
@@ -356,8 +356,10 @@ Delete individual media file
 
 ### Body
 
-TODO
+_None_
 
 ### Response
 
-TODO
+```json
+{ "message": "Media deleted successfully." }
+```

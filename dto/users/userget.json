@@ -4,6 +4,6 @@
     "firstName": "John",
     "lastName": "Doe",
     "birthDate": "2025-11-30",
-    "nationality": "NL",
+    "nationality": "Path:../nationalities/nationalityget.json",
     "club": "Path:../clubs/clubget.json"
 }
