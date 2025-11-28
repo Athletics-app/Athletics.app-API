@@ -24,7 +24,11 @@ Path: dto/users/userget.json
   "firstName": "John",
   "lastName": "Doe",
   "birthDate": "2025-11-30",
-  "nationality": "NL",
+  "nationality": {
+    "ISO": "BE",
+    "Description": "Belgian",
+    "Flag": "URLTOFLAGIMAGE"
+  },
   "club": {
     "id": "ID",
     "name": "demo name",
@@ -54,7 +58,8 @@ Path: dto/users/userpost.json
   "lastName": "Doe",
   "birthDate": "2025-11-30",
   "nationalityId": "NL",
-  "clubId": "CLUBID"
+  "clubId": "CLUBID",
+  "password": "123456789"
 }
 ```
 
@@ -68,7 +73,11 @@ Path: dto/users/userget.json
   "firstName": "John",
   "lastName": "Doe",
   "birthDate": "2025-11-30",
-  "nationality": "NL",
+  "nationality": {
+    "ISO": "BE",
+    "Description": "Belgian",
+    "Flag": "URLTOFLAGIMAGE"
+  },
   "club": {
     "id": "ID",
     "name": "demo name",
@@ -102,7 +111,11 @@ Path: dto/users/userget.json
   "firstName": "John",
   "lastName": "Doe",
   "birthDate": "2025-11-30",
-  "nationality": "NL",
+  "nationality": {
+    "ISO": "BE",
+    "Description": "Belgian",
+    "Flag": "URLTOFLAGIMAGE"
+  },
   "club": {
     "id": "ID",
     "name": "demo name",
@@ -132,7 +145,8 @@ Path: dto/users/userpost.json
   "lastName": "Doe",
   "birthDate": "2025-11-30",
   "nationalityId": "NL",
-  "clubId": "CLUBID"
+  "clubId": "CLUBID",
+  "password": "123456789"
 }
 ```
 
@@ -146,7 +160,11 @@ Path: dto/users/userget.json
   "firstName": "John",
   "lastName": "Doe",
   "birthDate": "2025-11-30",
-  "nationality": "NL",
+  "nationality": {
+    "ISO": "BE",
+    "Description": "Belgian",
+    "Flag": "URLTOFLAGIMAGE"
+  },
   "club": {
     "id": "ID",
     "name": "demo name",
@@ -200,9 +218,16 @@ Path: dto/users/userprofileget.json
   "firstName": "John",
   "lastName": "Doe",
   "birthDate": "2025-11-30",
-  "nationality": "BE",
-  "language": "BE",
+  "nationality": {
+    "ISO": "BE",
+    "Description": "Belgian",
+    "Flag": "URLTOFLAGIMAGE"
+  },
   "gender": "MALE",
+  "language": {
+    "ISO": "nl-BE",
+    "Decription": "Vlaams"
+  },
   "athleteLicense": {
     "federation": "VAL",
     "startDate": "01-11-2025",
@@ -271,6 +296,14 @@ _None_
 ### Response
 
 Path: dto/users/userpreferencesget.json
+```json
+{
+  "language": {
+    "ISO": "nl-BE",
+    "Decription": "Vlaams"
+  }
+}
+```
 
 ## `PUT` /users/{user_id}/preferences
 
@@ -285,10 +318,23 @@ Update user settings / preferences
 ### Body
 
 Path: dto/users/userpreferencespost.json
+```json
+{
+  "languageID": "NL"
+}
+```
 
 ### Response
 
 Path: dto/users/userpreferencesget.json
+```json
+{
+  "language": {
+    "ISO": "nl-BE",
+    "Decription": "Vlaams"
+  }
+}
+```
 
 ## `GET` /users/{user_id}/media
 
@@ -307,6 +353,14 @@ _None_
 ### Response
 
 Path: dto/media/mediaget.json
+```json
+{
+  "id": "id",
+  "uploadedOn": "2025-11-28 20:22",
+  "mediaUrl": "URLTOMEDIA",
+  "fileType": ".png"
+}
+```
 
 ## `POST` /users/{user_id}/media
 
@@ -325,6 +379,14 @@ Filestream
 ### Response
 
 Path: dto/media/mediaget.json
+```json
+{
+  "id": "id",
+  "uploadedOn": "2025-11-28 20:22",
+  "mediaUrl": "URLTOMEDIA",
+  "fileType": ".png"
+}
+```
 
 ## `GET` /users/{user_id}/media/{media_id}/
 
@@ -343,6 +405,14 @@ _None_
 ### Response
 
 Path: dto/media/mediaget.json
+```json
+{
+  "id": "id",
+  "uploadedOn": "2025-11-28 20:22",
+  "mediaUrl": "URLTOMEDIA",
+  "fileType": ".png"
+}
+```
 
 ## `DELETE` /users/{user_id}/media{media_id}/
 
