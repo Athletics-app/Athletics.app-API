@@ -16,25 +16,7 @@ _None_
 
 ### Response
 
-TODO
-
-## `POST` /notifications
-
-| Method | Authorisation | Contributor   |
-| ------ | ------------- | ------------- |
-| `POST` | Yes           | athletics.app |
-
-### Description
-
-Create new notification
-
-### Body
-
-_None_
-
-### Response
-
-TODO
+Path: dto/notification/notificationget.json
 
 ## `GET` /notifications/{notification_id}
 
@@ -52,17 +34,17 @@ _None_
 
 ### Response
 
-TODO
+Path: dto/notification/notificationget.json
 
-## `POST` /notifications/{notification_id}
+## `PUT` /notifications/{notification_id}
 
 | Method | Authorisation | Contributor   |
 | ------ | ------------- | ------------- |
-| `POST` | Yes           | athletics.app |
+| `PUT` | Yes           | athletics.app |
 
 ### Description
 
-Create a notification
+Change status of a notification
 
 ### Body
 
@@ -70,7 +52,7 @@ _None_
 
 ### Response
 
-TODO
+Path: dto/notification/notificationget.json
 
 ## `DELETE` /notifications/{notification_id}
 
@@ -88,4 +70,4 @@ _None_
 
 ### Response
 
-TODO
+Path: dto/notification/notificationget.json
