@@ -22,7 +22,9 @@ Path: dto/clubs/clubget.json
   "id": "ID",
   "name": "demo name",
   "shortName": "DN",
-  "country": "NL"
+  "country": "NL",
+  "city": "Brussels",
+  "email": "DN@atletiek.be"
 }
 ```
 
@@ -45,7 +47,9 @@ Path: dto/clubs/clubpost.json
 {
   "name": "demo name",
   "shortName": "DN",
-  "country": "NL"
+  "country": "NL",
+  "city": "Brussels",
+  "email": "DN@atletiek.be"
 }
 ```
 
@@ -57,7 +61,9 @@ Path: dto/clubs/clubget.json
   "id": "ID",
   "name": "demo name",
   "shortName": "DN",
-  "country": "NL"
+  "country": "NL",
+  "city": "Brussels",
+  "email": "DN@atletiek.be"
 }
 ```
 
@@ -83,7 +89,9 @@ Path: dto/clubs/clubget.json
   "id": "ID",
   "name": "demo name",
   "shortName": "DN",
-  "country": "NL"
+  "country": "NL",
+  "city": "Brussels",
+  "email": "DN@atletiek.be"
 }
 ```
 
@@ -104,7 +112,9 @@ Path: dto/clubs/clubpost.json
 {
   "name": "demo name",
   "shortName": "DN",
-  "country": "NL"
+  "country": "NL",
+  "city": "Brussels",
+  "email": "DN@atletiek.be"
 }
 ```
 
@@ -116,7 +126,9 @@ Path: dto/clubs/clubget.json
   "id": "ID",
   "name": "demo name",
   "shortName": "DN",
-  "country": "NL"
+  "country": "NL",
+  "city": "Brussels",
+  "email": "DN@atletiek.be"
 }
 ```
 
@@ -163,7 +175,47 @@ Path: dto/athletes/athleteget.json
 {
   "name": "John",
   "lastName": "Doe",
-  "TODO": "expand this dto"
+  "club": {
+    "id": "ID",
+    "name": "demo name",
+    "shortName": "DN",
+    "country": "NL",
+    "city": "Brussels",
+    "email": "DN@atletiek.be"
+  },
+  "nationality": {
+    "ISO": "BE",
+    "Description": "Belgian",
+    "Flag": "URLTOFLAGIMAGE"
+  },
+  "age": 22,
+  "speciality": [
+    "100m",
+    "200m",
+    "TODO MAKE DTO"
+  ],
+  "bibNumber": 123,
+  "personalBests": "Path/personalbestget.json",
+  "seasonsBests": "Path/personalbestget.json",
+  "competitions": {
+    "name": "Avondmeeting",
+    "startTime": "10-10-2025-14:00",
+    "endTime": "10-10-2025-18:00",
+    "organizer": "Belgian Athletics",
+    "bibNumber": 123,
+    "firstName": "John",
+    "lastName": "Doe",
+    "club": {
+      "id": "ID",
+      "name": "demo name",
+      "shortName": "DN",
+      "country": "NL",
+      "city": "Brussels",
+      "email": "DN@atletiek.be"
+    },
+    "category": "SEN",
+    "disciplines": "TODO"
+  }
 }
 ```
 

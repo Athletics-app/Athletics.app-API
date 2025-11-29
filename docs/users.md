@@ -33,7 +33,9 @@ Path: dto/users/userget.json
     "id": "ID",
     "name": "demo name",
     "shortName": "DN",
-    "country": "NL"
+    "country": "NL",
+    "city": "Brussels",
+    "email": "DN@atletiek.be"
   }
 }
 ```
@@ -82,7 +84,9 @@ Path: dto/users/userget.json
     "id": "ID",
     "name": "demo name",
     "shortName": "DN",
-    "country": "NL"
+    "country": "NL",
+    "city": "Brussels",
+    "email": "DN@atletiek.be"
   }
 }
 ```
@@ -120,7 +124,9 @@ Path: dto/users/userget.json
     "id": "ID",
     "name": "demo name",
     "shortName": "DN",
-    "country": "NL"
+    "country": "NL",
+    "city": "Brussels",
+    "email": "DN@atletiek.be"
   }
 }
 ```
@@ -169,7 +175,9 @@ Path: dto/users/userget.json
     "id": "ID",
     "name": "demo name",
     "shortName": "DN",
-    "country": "NL"
+    "country": "NL",
+    "city": "Brussels",
+    "email": "DN@atletiek.be"
   }
 }
 ```
@@ -238,7 +246,9 @@ Path: dto/users/userprofileget.json
     "id": "ID",
     "name": "demo name",
     "shortName": "DN",
-    "country": "NL"
+    "country": "NL",
+    "city": "Brussels",
+    "email": "DN@atletiek.be"
   },
   "competitions": {
     "name": "Avondmeeting",
@@ -252,7 +262,9 @@ Path: dto/users/userprofileget.json
       "id": "ID",
       "name": "demo name",
       "shortName": "DN",
-      "country": "NL"
+      "country": "NL",
+      "city": "Brussels",
+      "email": "DN@atletiek.be"
     },
     "category": "SEN",
     "disciplines": "TODO"

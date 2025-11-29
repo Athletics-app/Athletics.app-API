@@ -53,6 +53,25 @@ _None_
 ### Response
 
 Path: dto/competitions/competitionsget.json
+```json
+{
+  "id": "123",
+  "name": "Avondmeeting",
+  "date": "2025-11-28",
+  "country": "BE",
+  "city": "Brussels",
+  "startTime": "13:50",
+  "endTime": "17:30",
+  "adress": "Brusselstraat 25, 1000 Brussel",
+  "email": "example@gmail.com",
+  "phone": "+32 0412 34 56",
+  "participants": 154,
+  "startDateRegistrations": "2025-11-28 12:00",
+  "endDateRegistrations": "2025-11-28 23:59",
+  "description": "HTML SUPPORTED DESCRIPTION",
+  "TODO": "TODO EXPAND THIS DTO"
+}
+```
 
 ## `PUT` /competitions/{competition_id}/
 
