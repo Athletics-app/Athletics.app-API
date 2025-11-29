@@ -260,25 +260,6 @@ Path: dto/users/userprofileget.json
 }
 ```
 
-## `PUT` /users/{user_id}/profile
-
-| Method | Authorisation | Contributor   |
-| ------ | ------------- | ------------- |
-| `PUT`  | Yes           | athletics.app |
-
-### Description
-
-Update personal user info by ID.
-> @athletics.app do we need this endpoint??
-
-### Body
-
-TODO
-
-### Response
-
-TODO
-
 ## `GET` /users/{user_id}/preferences
 
 | Method | Authorisation | Contributor   |
