@@ -71,5 +71,5 @@ _None_
 ### Response
 
 ```json
-{ "message": "Club deleted successfully." }
+{ "message": "Notification deleted successfully." }
 ```

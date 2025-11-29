@@ -52,7 +52,7 @@ _None_
 
 ### Response
 
-TODO
+Path: dto/competitions/competitionsget.json
 
 ## `PUT` /competitions/{competition_id}/
 
@@ -88,7 +88,9 @@ _None_
 
 ### Response
 
-TODO
+```json
+{ "message": "Competition deleted successfully." }
+```
 
 ## `GET` /competitions/{competition_id}/categories/
 
@@ -178,7 +180,9 @@ _None_
 
 ### Response
 
-TODO
+```json
+{ "message": "Category for competition {competition-id} deleted successfully." }
+```
 
 ## `GET` /competitions/{competition_id}/categories/{category_id}/events/
 
@@ -268,7 +272,9 @@ _None_
 
 ### Response
 
-TODO
+```json
+{ "message": "Event for competition {competition-id} deleted successfully." }
+```
 
 ## `GET` /competitions/{competition_id}/categories/{category_id}/events/{event_id}/results/
 
@@ -358,7 +364,9 @@ _None_
 
 ### Response
 
-TODO
+```json
+{ "message": "Result for competition {competition-id} deleted successfully." }
+```
 
 ## `GET` /competitions/{competition_id}/categories/{category_id}/events/{event_id}/participants/
 
@@ -430,7 +438,9 @@ _None_
 
 ### Response
 
-TODO
+```json
+{ "message": "Participant for competition {competition-id} deleted successfully." }
+```
 
 ## `GET` /competitions/{competition_id}/registration/
 
@@ -790,7 +800,9 @@ _None_
 
 ### Response
 
-TODO
+```json
+{ "message": "Result for competition {competition-id} deleted successfully." }
+```
 
 ## `GET` /competitions/{competition_id}/narrowcasting/
 
@@ -880,7 +892,9 @@ _None_
 
 ### Response
 
-TODO
+```json
+{ "message": "Permition for competition {competition-id} deleted successfully." }
+```
 
 ## `POST` /competitions/{competition_id}/permissions/
 
@@ -988,7 +1002,9 @@ _None_
 
 ### Response
 
-TODO
+```json
+{ "message": "Competitor for competition {competition-id} deleted successfully." }
+```
 
 ## `GET` /competitions/{competition_id}/competitors/{competitor_id}/history/
 
@@ -1114,7 +1130,9 @@ _None_
 
 ### Response
 
-TODO
+```json
+{ "message": "Team for competition {competition-id} deleted successfully." }
+```
 
 ## `GET` /competitions/{competition_id}/teams/{team_id}/members/
 
@@ -1186,7 +1204,9 @@ _None_
 
 ### Response
 
-TODO
+```json
+{ "message": "Team member for competition {competition-id} deleted successfully." }
+```
 
 ## `GET` /competitions/{competition_id}/relayteams/
 
@@ -1276,7 +1296,9 @@ _None_
 
 ### Response
 
-TODO
+```json
+{ "message": "Relay team for competition {competition-id} deleted successfully." }
+```
 
 ## `GET` /competitions/{competition_id}/relayteams/{team_id}/members/
 
@@ -1348,4 +1370,6 @@ _None_
 
 ### Response
 
-TODO
+```json
+{ "message": "Relay team member for competition {competition-id} deleted successfully." }
+```
