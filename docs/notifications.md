@@ -70,4 +70,6 @@ _None_
 
 ### Response
 
-Path: dto/notification/notificationget.json
+```json
+{ "message": "Club deleted successfully." }
+```

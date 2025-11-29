@@ -1,5 +1,7 @@
 {
     "name": "demo name",
     "shortName": "DN",
-    "country": "NL"
+    "country": "NL",
+    "city": "Brussels",
+    "email": "DN@atletiek.be"
 }

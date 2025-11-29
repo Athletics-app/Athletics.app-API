@@ -36,6 +36,8 @@ Path: dto/clubs/clubget.json
 
 Create a club.
 
+> @athletics.app do we need this as a public api call?
+
 ### Body
 
 Path: dto/clubs/clubpost.json
@@ -93,7 +95,7 @@ Path: dto/clubs/clubget.json
 
 ### Description
 
-Update a specific club.
+Update a specific club. (Only for clubadmins)
 
 ### Body
 
@@ -127,6 +129,8 @@ Path: dto/clubs/clubget.json
 ### Description
 
 Delate a specific club.
+
+> @athletics.app do we need this as a public api call?
 
 ### Body
 
