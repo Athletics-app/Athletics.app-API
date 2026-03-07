@@ -12,14 +12,14 @@ Retrieve all competition results for a specific athlete.
 
 ### Query parameters
 
-- `season` (integer) - optional, filter by athletics season
-- `discipline` (string) - optional, e.g. `100m`, `Speerwerpen`
-- `location` (string) - optional, filter by city/venue
-- `date_from` (date) - optional, include results on/after this date (`YYYY-MM-DD`)
-- `date_to` (date) - optional, include results on/before this date (`YYYY-MM-DD`)
-- `page` (integer) - optional, page number (starting at 1)
-- `limit` (integer) - optional, max number of results per page
-- `sort` (string) - optional, sorting method (e.g. `ASC`, `DESC`)
+- `?season` (integer) - optional, filter by athletics season
+- `?discipline` (string) - optional, e.g. `100m`, `Speerwerpen`
+- `?location` (string) - optional, filter by city/venue
+- `?date_from` (date) - optional, include results on/after this date (`YYYY-MM-DD`)
+- `?date_to` (date) - optional, include results on/before this date (`YYYY-MM-DD`)
+- `?page` (integer) - optional, page number (starting at 1)
+- `?limit` (integer) - optional, max number of results per page
+- `?sort` (string) - optional, sorting method (e.g. `date_asc`, `date_desc`)
 
 ### Body
 
@@ -27,29 +27,7 @@ _None_
 
 ### Response
 
-```json
-{
-  "items": [
-    {
-      "eventId": "NK2025",
-      "eventName": "ASICS NK Atletiek 2025",
-      "discipline": "100m",
-      "performance": "10.55",
-      "unit": "sec",
-      "wind": "+1.2",
-      "rank": 2,
-      "date": "2025-07-26",
-      "location": "Hengelo"
-    }
-  ],
-  "pagination": {
-    "page": 1,
-    "limit": 25,
-    "totalItems": 142,
-    "totalPages": 6
-  }
-}
-```
+Path: dto/athletes/athleteresultsget.json
 
 ## `GET` /athletes/{athlete_id}/records/
 
