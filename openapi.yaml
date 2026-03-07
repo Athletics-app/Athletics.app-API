@@ -32,14 +32,14 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: A list of detailed events.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/EventDetails'
+                  $ref: "#/components/schemas/EventDetails"
 
   /events/{eventId}/startlist:
     get:
@@ -55,14 +55,14 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: The start list grouped by discipline and series.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/StartEntry'
+                  $ref: "#/components/schemas/StartEntry"
 
   /athletes/{atleetId}/prs:
     get:
@@ -78,12 +78,91 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Athlete profile and personal/season bests.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AthleteBests'
+                $ref: "#/components/schemas/AthleteBests"
+
+  /athletes/{athleteId}/results:
+    get:
+      tags:
+        - Atleten (Athletes)
+      summary: Get results of a specific athlete.
+      operationId: getAthleteResults
+      parameters:
+        - name: athleteId
+          in: path
+          description: The id of the athlete
+          required: true
+          schema:
+            type: string
+        - name: season
+          in: query
+          description: Athletics season
+          required: false
+          schema:
+            type: integer
+        - name: discipline
+          in: query
+          description: The specific track and field discipline (e.g., 100m, Speerwerpen).
+          required: false
+          schema:
+            type: string
+        - name: location
+          in: query
+          description: Location of the events.
+          required: false
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          description: Get all events after this date.
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          description: Get all events before this date.
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: page
+          in: query
+          description: Page number of query.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+        - name: limit
+          in: query
+          description: Max amount of results per page.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+        - name: sort
+          in: query
+          description: Sort by result date (`date_asc` oldest first, `date_desc` newest first).
+          required: false
+          schema:
+            type: string
+            enum:
+              - date_asc
+              - date_desc
+            default: date_desc
+
+      responses:
+        "200":
+          description: A paginated list of results for the given athlete.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedAthleteResults"
 
   /rankings/{discipline}:
     get:
@@ -105,14 +184,14 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: A list of ranked athletes and their top performances.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/RankingEntry'
+                  $ref: "#/components/schemas/RankingEntry"
 
 # ----------------- COMPONENTS (Data Structures) -----------------
 components:
@@ -209,11 +288,11 @@ components:
         persoonlijke_records:
           type: array
           items:
-            $ref: '#/components/schemas/Performance'
+            $ref: "#/components/schemas/Performance"
         seizoen_records:
           type: array
           items:
-            $ref: '#/components/schemas/Performance'
+            $ref: "#/components/schemas/Performance"
 
     RankingEntry:
       type: object
@@ -229,4 +308,74 @@ components:
         club:
           type: string
         beste_prestatie:
-          $ref: '#/components/schemas/Performance'
+          $ref: "#/components/schemas/Performance"
+
+    EventPerformance:
+      type: object
+      description: A single competition result entry for an athlete.
+      properties:
+        eventId:
+          type: string
+          description: Unique identifier of the event.
+        eventName:
+          type: string
+          description: Public name of the event.
+        discipline:
+          type: string
+          description: Discipline in which the athlete competed.
+          example: "100m"
+        performance:
+          type: string
+          description: Recorded performance (time or distance).
+          example: "10.55"
+        unit:
+          type: string
+          description: Unit of the recorded performance.
+          enum: [sec, m, cm, punten]
+        wind:
+          type: string
+          description: Wind reading for relevant disciplines.
+          example: "+1.2"
+        rank:
+          type: integer
+          description: Finishing position in the event/heat.
+        date:
+          type: string
+          format: date
+          description: Date on which the performance was recorded.
+        location:
+          type: string
+          description: City or venue where the event took place.
+
+    PaginationMeta:
+      type: object
+      description: Pagination metadata for list responses.
+      properties:
+        page:
+          type: integer
+          minimum: 1
+          description: Current page number.
+        limit:
+          type: integer
+          minimum: 1
+          description: Maximum number of items returned per page.
+        totalItems:
+          type: integer
+          minimum: 0
+          description: Total number of matching items.
+        totalPages:
+          type: integer
+          minimum: 0
+          description: Total number of pages based on page size.
+
+    PaginatedAthleteResults:
+      type: object
+      description: Paginated results for a specific athlete.
+      properties:
+        items:
+          type: array
+          description: Athlete result entries for the current page.
+          items:
+            $ref: "#/components/schemas/EventPerformance"
+        pagination:
+          $ref: "#/components/schemas/PaginationMeta"
