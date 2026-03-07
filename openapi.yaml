@@ -144,6 +144,7 @@ paths:
           schema:
             type: integer
             minimum: 1
+            default: 25
             maximum: 100
         - name: sort
           in: query
