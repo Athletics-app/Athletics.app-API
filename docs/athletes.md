@@ -28,6 +28,29 @@ _None_
 ### Response
 
 Path: dto/athletes/athleteresultsget.json
+```json
+{
+  "items": [
+    {
+      "eventId": "NK2025",
+      "eventName": "ASICS NK Atletiek 2025",
+      "discipline": "100m",
+      "performance": "10.55",
+      "unit": "sec",
+      "wind": "+1.2",
+      "rank": 2,
+      "date": "2025-07-26",
+      "location": "Hengelo"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 25,
+    "totalItems": 142,
+    "totalPages": 6
+  }
+}
+```
 
 ## `GET` /athletes/{athlete_id}/records/
 
