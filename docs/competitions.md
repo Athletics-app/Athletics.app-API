@@ -294,6 +294,23 @@ _None_
 ```json
 { "message": "Event for competition {competition-id} deleted successfully." }
 ```
+## `GET` /competitions/{competition_id}/categories/{category_id}/events/{event_id}/live/
+
+| Method | Authorisation | Contributor   |
+| ------ | ------------- | ------------- |
+| `GET`  | No            | wouter |
+
+### Description
+
+List last, current end next competitor including result for last
+
+### Body
+
+_None_
+
+### Response
+
+TODO
 
 ## `GET` /competitions/{competition_id}/categories/{category_id}/events/{event_id}/results/
 
