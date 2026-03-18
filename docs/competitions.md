@@ -310,7 +310,38 @@ _None_
 
 ### Response
 
-TODO
+json
+```json
+{
+  "id": "123",
+  "name": "long jump V sen",
+  "date": "2025-11-28",
+  "startTime": "13:50",
+  "endTime": "17:30",
+  last_athlete": {
+    "bib": 142,
+    "name": "Sarah Johnson",
+    "first_name": "Sarah",
+    "last_name": "Johnson",
+    "category": "Women Senior",
+    "country": "USA",
+    "team": "Oregon Track Club",
+    "personal_best": 6.78,
+    "season_best": 6.65,
+    "resul": {
+      "distance": 6.45,
+      "wind_speed": 1.2,
+      "wind_legal": true,
+      "valid": true,
+      "attempt_number": 4,
+      "total_attempts": 6,
+      "timestamp": "2026-03-18T14:44:18Z",
+      "reaction_time": null,
+    }
+    },
+    "todo":"expand example"
+}
+```
 
 ## `GET` /competitions/{competition_id}/categories/{category_id}/events/{event_id}/results/
 
