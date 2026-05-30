@@ -20,6 +20,13 @@ servers:
   - url: https://api.atletiek.nu/v1
     description: Primary API server for public access
 
+# ----------------- SECURITY -----------------
+# By default every operation requires an API key sent as a bearer token in the
+# Authorization header (`Authorization: Bearer <api-key>`). Operations that are
+# publicly accessible override this with an empty `security: []`.
+security:
+  - ApiKeyAuth: []
+
 # ----------------- PATHS (API Endpoints) -----------------
 paths:
   /events:
@@ -28,6 +35,7 @@ paths:
         - Events
       summary: Retrieve a calendar of upcoming and past athletics events.
       operationId: getEvents
+      security: []  # public
       parameters:
         - name: status
           in: query
@@ -58,6 +66,7 @@ paths:
         - Events
       summary: Get the official start list and heat/lane assignments for an event.
       operationId: getStartList
+      security: []  # public
       parameters:
         - name: event_id
           in: path
@@ -81,6 +90,7 @@ paths:
         - Athletes
       summary: Retrieve the Personal Best (PR) and Season Best (SB) records for an athlete.
       operationId: getAthletePersonalBests
+      security: []  # public
       parameters:
         - name: athlete_id
           in: path
@@ -102,6 +112,7 @@ paths:
         - Athletes
       summary: Get results of a specific athlete.
       operationId: getAthleteResults
+      security: []  # public
       parameters:
         - name: athlete_id
           in: path
@@ -181,6 +192,7 @@ paths:
         - Rankings
       summary: Get national ranking data for a specific discipline and category.
       operationId: getNationalRanking
+      security: []  # public
       parameters:
         - name: discipline
           in: path
@@ -417,6 +429,7 @@ paths:
         - Clubs
       summary: Retrieve all clubs.
       operationId: getClubs
+      security: []  # public
       responses:
         "200":
           description: A list of clubs.
@@ -451,6 +464,7 @@ paths:
         - Clubs
       summary: Retrieve a specific club by ID.
       operationId: getClub
+      security: []  # public
       parameters:
         - $ref: "#/components/parameters/ClubId"
       responses:
@@ -501,6 +515,7 @@ paths:
         - Clubs
       summary: List members of a club.
       operationId: getClubMembers
+      security: []  # public
       parameters:
         - $ref: "#/components/parameters/ClubId"
       responses:
@@ -519,6 +534,7 @@ paths:
         - Competitions
       summary: Retrieve all competitions.
       operationId: getCompetitions
+      security: []  # public
       responses:
         "200":
           description: A list of competitions.
@@ -535,6 +551,7 @@ paths:
         - Competitions
       summary: Retrieve a specific competition by ID.
       operationId: getCompetition
+      security: []  # public
       parameters:
         - $ref: "#/components/parameters/CompetitionId"
       responses:
@@ -603,6 +620,13 @@ paths:
 
 # ----------------- COMPONENTS (Data Structures) -----------------
 components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        API key supplied as a bearer token in the `Authorization` header, e.g.
+        `Authorization: Bearer <api-key>`.
   parameters:
     UserId:
       name: user_id
