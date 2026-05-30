@@ -14,7 +14,7 @@ paths:
   /events:
     get:
       tags:
-        - Wedstrijden (Events)
+        - Events
       summary: Retrieve a calendar of upcoming and past athletics events.
       operationId: getEvents
       parameters:
@@ -44,7 +44,7 @@ paths:
   /events/{eventId}/startlist:
     get:
       tags:
-        - Wedstrijden (Events)
+        - Events
       summary: Get the official start list and heat/lane assignments for an event.
       operationId: getStartList
       parameters:
@@ -64,14 +64,14 @@ paths:
                 items:
                   $ref: "#/components/schemas/StartEntry"
 
-  /athletes/{atleetId}/prs:
+  /athletes/{athleteId}/prs:
     get:
       tags:
-        - Atleten (Athletes)
+        - Athletes
       summary: Retrieve the Personal Best (PR) and Season Best (SB) records for an athlete.
       operationId: getAthletePersonalBests
       parameters:
-        - name: atleetId
+        - name: athleteId
           in: path
           description: The unique ID or KNAU/Atletiekunie license number of the athlete.
           required: true
@@ -88,7 +88,7 @@ paths:
   /athletes/{athleteId}/results:
     get:
       tags:
-        - Atleten (Athletes)
+        - Athletes
       summary: Get results of a specific athlete.
       operationId: getAthleteResults
       parameters:
@@ -106,7 +106,7 @@ paths:
             type: integer
         - name: discipline
           in: query
-          description: The specific track and field discipline (e.g., 100m, Speerwerpen).
+          description: The specific track and field discipline (e.g., 100m, Javelin).
           required: false
           schema:
             type: string
@@ -168,19 +168,19 @@ paths:
   /rankings/{discipline}:
     get:
       tags:
-        - Ranglijsten (Rankings)
+        - Rankings
       summary: Get national ranking data for a specific discipline and category.
       operationId: getNationalRanking
       parameters:
         - name: discipline
           in: path
-          description: The specific track and field discipline (e.g., 100m, Speerwerpen).
+          description: The specific track and field discipline (e.g., 100m, Javelin).
           required: true
           schema:
             type: string
         - name: category
           in: query
-          description: Filter by age/gender category (e.g., Senioren Mannen, Meisjes U18).
+          description: Filter by age/gender category (e.g., Senior Men, U18 Girls).
           required: true
           schema:
             type: string
@@ -205,26 +205,26 @@ components:
           type: string
           description: Unique identifier for the event (e.g., '20250726_NK').
           example: "NK2025"
-        naam:
+        name:
           type: string
           description: The official name of the event (e.g., 'ASICS NK Atletiek 2025').
-        datum:
+        date:
           type: string
           format: date
           description: The start date of the event.
-        locatie:
+        location:
           type: string
           description: Venue or city where the event is held.
-        organisator:
+        organizer:
           type: string
           description: The organizing club or body.
           example: "AV Flevo Delta"
-        inschrijving_status:
+        registration_status:
           type: string
           description: Current status of athlete registration.
           enum: [Open, Closed, Full, Not_Applicable]
           example: "Open"
-        uitslagen_url:
+        results_url:
           type: string
           format: url
           description: Direct link to the public results page for the event.
@@ -233,24 +233,24 @@ components:
       type: object
       description: A single entry in a start list, tied to a specific heat/series.
       properties:
-        atleetId:
+        athleteId:
           type: string
           description: ID of the athlete.
-        naam:
+        name:
           type: string
         club:
           type: string
           description: Athlete's affiliated club.
         discipline:
           type: string
-          example: "100m Vrouwen"
-        serie:
+          example: "100m Women"
+        series:
           type: integer
           description: The heat or series number.
-        baan:
+        lane:
           type: integer
           description: The lane number (for track events) or start group (for field events).
-        ingevoerde_prestatie:
+        entered_performance:
           type: string
           description: The performance used for seeding the heat/group (PB, SB, or season best).
           example: "11.23"
@@ -261,18 +261,18 @@ components:
       properties:
         discipline:
           type: string
-          description: The specific discipline (e.g., "400m Horden").
-        prestatie:
+          description: The specific discipline (e.g., "400m Hurdles").
+        performance:
           type: string
           description: The recorded performance (time or distance).
           example: "51.45"
-        eenheid:
+        unit:
           type: string
-          enum: [sec, m, cm, punten]
-        datum:
+          enum: [sec, m, cm, points]
+        date:
           type: string
           format: date
-        locatie:
+        location:
           type: string
           description: Location where the performance was achieved.
 
@@ -280,17 +280,17 @@ components:
       type: object
       description: Athlete's profile with their best recorded performances.
       properties:
-        atleetId:
+        athleteId:
           type: string
-        volledige_naam:
+        full_name:
           type: string
-        geboortejaar:
+        birth_year:
           type: integer
-        persoonlijke_records:
+        personal_records:
           type: array
           items:
             $ref: "#/components/schemas/Performance"
-        seizoen_records:
+        season_records:
           type: array
           items:
             $ref: "#/components/schemas/Performance"
@@ -299,16 +299,16 @@ components:
       type: object
       description: An entry on a specific national ranking list.
       properties:
-        positie:
+        position:
           type: integer
           description: The athlete's rank in the list.
-        atleetId:
+        athleteId:
           type: string
-        naam:
+        name:
           type: string
         club:
           type: string
-        beste_prestatie:
+        best_performance:
           $ref: "#/components/schemas/Performance"
 
     EventPerformance:
@@ -332,7 +332,7 @@ components:
         unit:
           type: string
           description: Unit of the recorded performance.
-          enum: [sec, m, cm, punten]
+          enum: [sec, m, cm, points]
         wind:
           type: string
           description: Wind reading for relevant disciplines.

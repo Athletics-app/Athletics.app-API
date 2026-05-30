@@ -13,7 +13,7 @@ Retrieve all competition results for a specific athlete.
 ### Query parameters
 
 - `?season` (integer) - optional, filter by athletics season
-- `?discipline` (string) - optional, e.g. `100m`, `Speerwerpen`
+- `?discipline` (string) - optional, e.g. `100m`, `Javelin`
 - `?location` (string) - optional, filter by city/venue
 - `?date_from` (date) - optional, include results on/after this date (`YYYY-MM-DD`)
 - `?date_to` (date) - optional, include results on/before this date (`YYYY-MM-DD`)
