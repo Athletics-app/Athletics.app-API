@@ -1,6 +1,6 @@
 # Athletes
 
-## `GET` /athletes/{athleteId}/results
+## `GET` /athletes/{athlete_id}/results
 
 | Method | Authorisation | Contributor |
 | ------ | ------------- | ----------- |
@@ -32,8 +32,8 @@ Path: dto/athletes/athleteresultsget.json
 {
   "items": [
     {
-      "eventId": "NK2025",
-      "eventName": "ASICS NK Atletiek 2025",
+      "event_id": "NK2025",
+      "event_name": "ASICS NK Atletiek 2025",
       "discipline": "100m",
       "performance": "10.55",
       "unit": "sec",
@@ -46,8 +46,8 @@ Path: dto/athletes/athleteresultsget.json
   "pagination": {
     "page": 1,
     "limit": 25,
-    "totalItems": 142,
-    "totalPages": 6
+    "total_items": 142,
+    "total_pages": 6
   }
 }
 ```

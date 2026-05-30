@@ -1,14 +1,14 @@
 {
     "name": "John",
-    "lastName": "Doe",
+    "last_name": "Doe",
     "club": "Path:../clubs/clubget.json",
     "nationality": "Path:../nationalities/nationalityget.json",
     "age": 22,
     "speciality": [
         "100m", "200m", "TODO MAKE DTO" 
     ],
-    "bibNumber": 123,
-    "personalBests": "Path/personalbestget.json",
-    "seasonsBests": "Path/personalbestget.json",
+    "bib_number": 123,
+    "personal_bests": "Path/personalbestget.json",
+    "seasons_bests": "Path/personalbestget.json",
     "competitions": "Path:../users/usercompetitionsget.json"
 }

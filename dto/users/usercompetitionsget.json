@@ -1,11 +1,11 @@
 {
     "name": "Avondmeeting",
-    "startTime": "10-10-2025-14:00",
-    "endTime": "10-10-2025-18:00",
+    "start_time": "10-10-2025-14:00",
+    "end_time": "10-10-2025-18:00",
     "organizer": "Belgian Athletics",
-    "bibNumber": 123,
-    "firstName": "John",
-    "lastName": "Doe",
+    "bib_number": 123,
+    "first_name": "John",
+    "last_name": "Doe",
     "club": "Path:../clubs/clubget.json",
     "category": "SEN",
     "disciplines": "TODO"

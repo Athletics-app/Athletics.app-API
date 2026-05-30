@@ -21,7 +21,7 @@ Path: dto/clubs/clubget.json
 {
   "id": "ID",
   "name": "demo name",
-  "shortName": "DN",
+  "short_name": "DN",
   "country": "NL",
   "city": "Brussels",
   "email": "DN@atletiek.be"
@@ -46,7 +46,7 @@ Path: dto/clubs/clubpost.json
 ```json
 {
   "name": "demo name",
-  "shortName": "DN",
+  "short_name": "DN",
   "country": "NL",
   "city": "Brussels",
   "email": "DN@atletiek.be"
@@ -60,7 +60,7 @@ Path: dto/clubs/clubget.json
 {
   "id": "ID",
   "name": "demo name",
-  "shortName": "DN",
+  "short_name": "DN",
   "country": "NL",
   "city": "Brussels",
   "email": "DN@atletiek.be"
@@ -88,7 +88,7 @@ Path: dto/clubs/clubget.json
 {
   "id": "ID",
   "name": "demo name",
-  "shortName": "DN",
+  "short_name": "DN",
   "country": "NL",
   "city": "Brussels",
   "email": "DN@atletiek.be"
@@ -111,7 +111,7 @@ Path: dto/clubs/clubpost.json
 ```json
 {
   "name": "demo name",
-  "shortName": "DN",
+  "short_name": "DN",
   "country": "NL",
   "city": "Brussels",
   "email": "DN@atletiek.be"
@@ -125,7 +125,7 @@ Path: dto/clubs/clubget.json
 {
   "id": "ID",
   "name": "demo name",
-  "shortName": "DN",
+  "short_name": "DN",
   "country": "NL",
   "city": "Brussels",
   "email": "DN@atletiek.be"
@@ -174,11 +174,11 @@ Path: dto/athletes/athleteget.json
 ```json
 {
   "name": "John",
-  "lastName": "Doe",
+  "last_name": "Doe",
   "club": {
     "id": "ID",
     "name": "demo name",
-    "shortName": "DN",
+    "short_name": "DN",
     "country": "NL",
     "city": "Brussels",
     "email": "DN@atletiek.be"
@@ -194,21 +194,21 @@ Path: dto/athletes/athleteget.json
     "200m",
     "TODO MAKE DTO"
   ],
-  "bibNumber": 123,
-  "personalBests": "Path/personalbestget.json",
-  "seasonsBests": "Path/personalbestget.json",
+  "bib_number": 123,
+  "personal_bests": "Path/personalbestget.json",
+  "seasons_bests": "Path/personalbestget.json",
   "competitions": {
     "name": "Avondmeeting",
-    "startTime": "10-10-2025-14:00",
-    "endTime": "10-10-2025-18:00",
+    "start_time": "10-10-2025-14:00",
+    "end_time": "10-10-2025-18:00",
     "organizer": "Belgian Athletics",
-    "bibNumber": 123,
-    "firstName": "John",
-    "lastName": "Doe",
+    "bib_number": 123,
+    "first_name": "John",
+    "last_name": "Doe",
     "club": {
       "id": "ID",
       "name": "demo name",
-      "shortName": "DN",
+      "short_name": "DN",
       "country": "NL",
       "city": "Brussels",
       "email": "DN@atletiek.be"

@@ -1,13 +1,13 @@
 {
     "id": "ID",
     "email": "john.doe@gmail.com",
-    "firstName": "John",
-    "lastName": "Doe",
-    "birthDate": "2025-11-30",
+    "first_name": "John",
+    "last_name": "Doe",
+    "birth_date": "2025-11-30",
     "nationality": "Path:../nationalities/nationalityget.json",
     "gender": "MALE",
     "language": "Path:../languages/languageget.json",
-    "athleteLicense": "Path:../athletes/athleteLicenseget.json",
+    "athlete_license": "Path:../athletes/athleteLicenseget.json",
     "club": "Path:../clubs/clubget.json",
     "competitions": "Path:../users/usercompetitionsget.json"
 }

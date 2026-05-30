@@ -41,14 +41,14 @@ paths:
                 items:
                   $ref: "#/components/schemas/EventDetails"
 
-  /events/{eventId}/startlist:
+  /events/{event_id}/startlist:
     get:
       tags:
         - Events
       summary: Get the official start list and heat/lane assignments for an event.
       operationId: getStartList
       parameters:
-        - name: eventId
+        - name: event_id
           in: path
           description: The unique identifier of the competition.
           required: true
@@ -64,14 +64,14 @@ paths:
                 items:
                   $ref: "#/components/schemas/StartEntry"
 
-  /athletes/{athleteId}/prs:
+  /athletes/{athlete_id}/prs:
     get:
       tags:
         - Athletes
       summary: Retrieve the Personal Best (PR) and Season Best (SB) records for an athlete.
       operationId: getAthletePersonalBests
       parameters:
-        - name: athleteId
+        - name: athlete_id
           in: path
           description: The unique ID or KNAU/Atletiekunie license number of the athlete.
           required: true
@@ -85,14 +85,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/AthleteBests"
 
-  /athletes/{athleteId}/results:
+  /athletes/{athlete_id}/results:
     get:
       tags:
         - Athletes
       summary: Get results of a specific athlete.
       operationId: getAthleteResults
       parameters:
-        - name: athleteId
+        - name: athlete_id
           in: path
           description: The id of the athlete
           required: true
@@ -233,7 +233,7 @@ components:
       type: object
       description: A single entry in a start list, tied to a specific heat/series.
       properties:
-        athleteId:
+        athlete_id:
           type: string
           description: ID of the athlete.
         name:
@@ -280,7 +280,7 @@ components:
       type: object
       description: Athlete's profile with their best recorded performances.
       properties:
-        athleteId:
+        athlete_id:
           type: string
         full_name:
           type: string
@@ -302,7 +302,7 @@ components:
         position:
           type: integer
           description: The athlete's rank in the list.
-        athleteId:
+        athlete_id:
           type: string
         name:
           type: string
@@ -315,10 +315,10 @@ components:
       type: object
       description: A single competition result entry for an athlete.
       properties:
-        eventId:
+        event_id:
           type: string
           description: Unique identifier of the event.
-        eventName:
+        event_name:
           type: string
           description: Public name of the event.
         discipline:
@@ -360,11 +360,11 @@ components:
           type: integer
           minimum: 1
           description: Maximum number of items returned per page.
-        totalItems:
+        total_items:
           type: integer
           minimum: 0
           description: Total number of matching items.
-        totalPages:
+        total_pages:
           type: integer
           minimum: 0
           description: Total number of pages based on page size.

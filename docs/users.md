@@ -21,9 +21,9 @@ Path: dto/users/userget.json
 {
   "id": "ID",
   "email": "john.doe@gmail.com",
-  "firstName": "John",
-  "lastName": "Doe",
-  "birthDate": "2025-11-30",
+  "first_name": "John",
+  "last_name": "Doe",
+  "birth_date": "2025-11-30",
   "nationality": {
     "ISO": "BE",
     "Description": "Belgian",
@@ -32,7 +32,7 @@ Path: dto/users/userget.json
   "club": {
     "id": "ID",
     "name": "demo name",
-    "shortName": "DN",
+    "short_name": "DN",
     "country": "NL",
     "city": "Brussels",
     "email": "DN@atletiek.be"
@@ -56,11 +56,11 @@ Path: dto/users/userpost.json
 ```json
 {
   "email": "john.doe@gmail.com",
-  "firstName": "John",
-  "lastName": "Doe",
-  "birthDate": "2025-11-30",
-  "nationalityId": "NL",
-  "clubId": "CLUBID",
+  "first_name": "John",
+  "last_name": "Doe",
+  "birth_date": "2025-11-30",
+  "nationality_id": "NL",
+  "club_id": "CLUBID",
   "password": "123456789"
 }
 ```
@@ -72,9 +72,9 @@ Path: dto/users/userget.json
 {
   "id": "ID",
   "email": "john.doe@gmail.com",
-  "firstName": "John",
-  "lastName": "Doe",
-  "birthDate": "2025-11-30",
+  "first_name": "John",
+  "last_name": "Doe",
+  "birth_date": "2025-11-30",
   "nationality": {
     "ISO": "BE",
     "Description": "Belgian",
@@ -83,7 +83,7 @@ Path: dto/users/userget.json
   "club": {
     "id": "ID",
     "name": "demo name",
-    "shortName": "DN",
+    "short_name": "DN",
     "country": "NL",
     "city": "Brussels",
     "email": "DN@atletiek.be"
@@ -112,9 +112,9 @@ Path: dto/users/userget.json
 {
   "id": "ID",
   "email": "john.doe@gmail.com",
-  "firstName": "John",
-  "lastName": "Doe",
-  "birthDate": "2025-11-30",
+  "first_name": "John",
+  "last_name": "Doe",
+  "birth_date": "2025-11-30",
   "nationality": {
     "ISO": "BE",
     "Description": "Belgian",
@@ -123,7 +123,7 @@ Path: dto/users/userget.json
   "club": {
     "id": "ID",
     "name": "demo name",
-    "shortName": "DN",
+    "short_name": "DN",
     "country": "NL",
     "city": "Brussels",
     "email": "DN@atletiek.be"
@@ -147,11 +147,11 @@ Path: dto/users/userpost.json
 ```json
 {
   "email": "john.doe@gmail.com",
-  "firstName": "John",
-  "lastName": "Doe",
-  "birthDate": "2025-11-30",
-  "nationalityId": "NL",
-  "clubId": "CLUBID",
+  "first_name": "John",
+  "last_name": "Doe",
+  "birth_date": "2025-11-30",
+  "nationality_id": "NL",
+  "club_id": "CLUBID",
   "password": "123456789"
 }
 ```
@@ -163,9 +163,9 @@ Path: dto/users/userget.json
 {
   "id": "ID",
   "email": "john.doe@gmail.com",
-  "firstName": "John",
-  "lastName": "Doe",
-  "birthDate": "2025-11-30",
+  "first_name": "John",
+  "last_name": "Doe",
+  "birth_date": "2025-11-30",
   "nationality": {
     "ISO": "BE",
     "Description": "Belgian",
@@ -174,7 +174,7 @@ Path: dto/users/userget.json
   "club": {
     "id": "ID",
     "name": "demo name",
-    "shortName": "DN",
+    "short_name": "DN",
     "country": "NL",
     "city": "Brussels",
     "email": "DN@atletiek.be"
@@ -223,9 +223,9 @@ Path: dto/users/userprofileget.json
 {
   "id": "ID",
   "email": "john.doe@gmail.com",
-  "firstName": "John",
-  "lastName": "Doe",
-  "birthDate": "2025-11-30",
+  "first_name": "John",
+  "last_name": "Doe",
+  "birth_date": "2025-11-30",
   "nationality": {
     "ISO": "BE",
     "Description": "Belgian",
@@ -236,32 +236,32 @@ Path: dto/users/userprofileget.json
     "ISO": "nl-BE",
     "Decription": "Vlaams"
   },
-  "athleteLicense": {
+  "athlete_license": {
     "federation": "VAL",
-    "startDate": "01-11-2025",
-    "endDate": "31-10-2026",
-    "bibNumber": 123
+    "start_date": "01-11-2025",
+    "end_date": "31-10-2026",
+    "bib_number": 123
   },
   "club": {
     "id": "ID",
     "name": "demo name",
-    "shortName": "DN",
+    "short_name": "DN",
     "country": "NL",
     "city": "Brussels",
     "email": "DN@atletiek.be"
   },
   "competitions": {
     "name": "Avondmeeting",
-    "startTime": "10-10-2025-14:00",
-    "endTime": "10-10-2025-18:00",
+    "start_time": "10-10-2025-14:00",
+    "end_time": "10-10-2025-18:00",
     "organizer": "Belgian Athletics",
-    "bibNumber": 123,
-    "firstName": "John",
-    "lastName": "Doe",
+    "bib_number": 123,
+    "first_name": "John",
+    "last_name": "Doe",
     "club": {
       "id": "ID",
       "name": "demo name",
-      "shortName": "DN",
+      "short_name": "DN",
       "country": "NL",
       "city": "Brussels",
       "email": "DN@atletiek.be"
@@ -313,7 +313,7 @@ Update user settings / preferences
 Path: dto/users/userpreferencespost.json
 ```json
 {
-  "languageID": "NL"
+  "language_id": "NL"
 }
 ```
 
@@ -349,9 +349,9 @@ Path: dto/media/mediaget.json
 ```json
 {
   "id": "id",
-  "uploadedOn": "2025-11-28 20:22",
-  "mediaUrl": "URLTOMEDIA",
-  "fileType": ".png"
+  "uploaded_on": "2025-11-28 20:22",
+  "media_url": "URLTOMEDIA",
+  "file_type": ".png"
 }
 ```
 
@@ -375,9 +375,9 @@ Path: dto/media/mediaget.json
 ```json
 {
   "id": "id",
-  "uploadedOn": "2025-11-28 20:22",
-  "mediaUrl": "URLTOMEDIA",
-  "fileType": ".png"
+  "uploaded_on": "2025-11-28 20:22",
+  "media_url": "URLTOMEDIA",
+  "file_type": ".png"
 }
 ```
 
@@ -401,9 +401,9 @@ Path: dto/media/mediaget.json
 ```json
 {
   "id": "id",
-  "uploadedOn": "2025-11-28 20:22",
-  "mediaUrl": "URLTOMEDIA",
-  "fileType": ".png"
+  "uploaded_on": "2025-11-28 20:22",
+  "media_url": "URLTOMEDIA",
+  "file_type": ".png"
 }
 ```
 

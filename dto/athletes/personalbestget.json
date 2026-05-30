@@ -4,6 +4,6 @@
     "wind": "+2.0",
     "city": "Brussels",
     "date": "2025-11-28",
-    "competitionId": "123456",
+    "competition_id": "123456",
     "country": "BE"
 }
