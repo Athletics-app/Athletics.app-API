@@ -15,6 +15,22 @@ info:
       `2026-05-20T14:30:15+02:00`. A trailing `Z` denotes UTC (i.e. `+00:00`).
       For scheduled events the offset reflects the local time at the venue, so
       both the exact instant and the local wall-clock time are preserved.
+
+    ## Rate limiting
+
+    Requests are rate limited per API key. Every response includes the
+    following headers describing the caller's current quota:
+
+    - `X-RateLimit-Limit` — the maximum number of requests allowed in the
+      current window.
+    - `X-RateLimit-Remaining` — the number of requests remaining in the
+      current window.
+    - `X-RateLimit-Reset` — the time at which the current window resets, as a
+      Unix timestamp (seconds since the epoch).
+
+    When the limit is exceeded the API responds with `429 Too Many Requests`
+    and a `Retry-After` header indicating how many seconds to wait before
+    retrying.
   version: 1.1.0
 servers:
   - url: https://api.atletiek.nu/v1
@@ -627,6 +643,47 @@ components:
       description: >-
         API key supplied as a bearer token in the `Authorization` header, e.g.
         `Authorization: Bearer <api-key>`.
+  headers:
+    X-RateLimit-Limit:
+      description: The maximum number of requests allowed in the current window.
+      schema:
+        type: integer
+        example: 1000
+    X-RateLimit-Remaining:
+      description: The number of requests remaining in the current window.
+      schema:
+        type: integer
+        example: 999
+    X-RateLimit-Reset:
+      description: >-
+        The time at which the current rate-limit window resets, as a Unix
+        timestamp (seconds since the epoch).
+      schema:
+        type: integer
+        example: 1780046400
+    Retry-After:
+      description: >-
+        The number of seconds to wait before making another request. Sent on
+        `429 Too Many Requests` responses.
+      schema:
+        type: integer
+        example: 30
+  responses:
+    TooManyRequests:
+      description: The rate limit has been exceeded.
+      headers:
+        X-RateLimit-Limit:
+          $ref: "#/components/headers/X-RateLimit-Limit"
+        X-RateLimit-Remaining:
+          $ref: "#/components/headers/X-RateLimit-Remaining"
+        X-RateLimit-Reset:
+          $ref: "#/components/headers/X-RateLimit-Reset"
+        Retry-After:
+          $ref: "#/components/headers/Retry-After"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
   parameters:
     UserId:
       name: user_id
@@ -665,6 +722,14 @@ components:
         message:
           type: string
           example: "Resource deleted successfully."
+
+    Error:
+      type: object
+      description: An error response.
+      properties:
+        message:
+          type: string
+          example: "Rate limit exceeded. Please retry later."
 
     EventDetails:
       type: object
