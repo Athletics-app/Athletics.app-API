@@ -1,9 +1,0 @@
-{
-    "id": "ID",
-    "email": "john.doe@gmail.com",
-    "first_name": "John",
-    "last_name": "Doe",
-    "birth_date": "2025-11-30",
-    "nationality": "Path:../nationalities/nationalityget.json",
-    "club": "Path:../clubs/clubget.json"
-}
