@@ -544,6 +544,85 @@ paths:
                 items:
                   $ref: "#/components/schemas/Athlete"
 
+  /clubs/{club_id}/results:
+    get:
+      tags:
+        - Clubs
+      summary: Get recent results for all athletes of a club.
+      description: >-
+        Retrieve the latest competition results for every athlete of a club in
+        one paginated, server-sorted call. Mirrors the filter vocabulary of
+        `GET /athletes/{athlete_id}/results`.
+      operationId: getClubResults
+      security: []  # public
+      parameters:
+        - $ref: "#/components/parameters/ClubId"
+        - name: season
+          in: query
+          description: Athletics season
+          required: false
+          schema:
+            type: integer
+        - name: discipline
+          in: query
+          description: The specific track and field discipline (e.g., 100m, Javelin).
+          required: false
+          schema:
+            type: string
+        - name: location
+          in: query
+          description: Location of the events.
+          required: false
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          description: Get all events after this date.
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          description: Get all events before this date.
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: page
+          in: query
+          description: Page number of query.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+        - name: limit
+          in: query
+          description: Max amount of results per page.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 25
+            maximum: 100
+        - name: sort
+          in: query
+          description: Sort by result date (`date_asc` oldest first, `date_desc` newest first).
+          required: false
+          schema:
+            type: string
+            enum:
+              - date_asc
+              - date_desc
+            default: date_desc
+      responses:
+        "200":
+          description: A paginated list of results for all athletes of the club.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedClubResults"
+
   /competitions:
     get:
       tags:
@@ -912,6 +991,48 @@ components:
           description: Athlete result entries for the current page.
           items:
             $ref: "#/components/schemas/EventPerformance"
+        pagination:
+          $ref: "#/components/schemas/PaginationMeta"
+
+    ClubResultAthlete:
+      type: object
+      description: >-
+        Minimal athlete reference attached to a club result. For full athlete
+        data, call `GET /athletes/{athlete_id}`.
+      properties:
+        id:
+          type: string
+          example: "A123"
+        first_name:
+          type: string
+          example: "John"
+        last_name:
+          type: string
+          example: "Doe"
+        bib_number:
+          type: integer
+          example: 123
+
+    ClubResult:
+      description: >-
+        A single competition result for one of a club's athletes. Extends
+        `EventPerformance` with the athlete the result belongs to.
+      allOf:
+        - $ref: "#/components/schemas/EventPerformance"
+        - type: object
+          properties:
+            athlete:
+              $ref: "#/components/schemas/ClubResultAthlete"
+
+    PaginatedClubResults:
+      type: object
+      description: Paginated results across all athletes of a club.
+      properties:
+        items:
+          type: array
+          description: Club result entries for the current page.
+          items:
+            $ref: "#/components/schemas/ClubResult"
         pagination:
           $ref: "#/components/schemas/PaginationMeta"
 
