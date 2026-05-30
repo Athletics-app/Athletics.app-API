@@ -1013,25 +1013,21 @@ components:
 
     User:
       type: object
-      description: A user account.
+      description: >-
+        A user account. Personal data (email, birth date) is intentionally
+        excluded from this representation; use the authenticated
+        `GET /users/{user_id}/profile` endpoint to retrieve a user's own
+        personal information.
       properties:
         id:
           type: string
           example: "ID"
-        email:
-          type: string
-          format: email
-          example: "john.doe@gmail.com"
         first_name:
           type: string
           example: "John"
         last_name:
           type: string
           example: "Doe"
-        birth_date:
-          type: string
-          format: date
-          example: "2025-11-30"
         nationality:
           $ref: "#/components/schemas/Nationality"
         club:
@@ -1176,16 +1172,6 @@ components:
         end_time:
           type: string
           example: "17:30"
-        address:
-          type: string
-          example: "Brusselstraat 25, 1000 Brussel"
-        email:
-          type: string
-          format: email
-          example: "example@gmail.com"
-        phone:
-          type: string
-          example: "+32 0412 34 56"
         participants:
           type: integer
           example: 154
