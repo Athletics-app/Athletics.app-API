@@ -3,7 +3,7 @@ info:
   title: Atletiek.nu Competition Data API
   description: |
     A refined, hypothetical API for accessing competition data managed by Atletiek.nu,
-    focusing on events, start lists, results, and national rankings.
+    focusing on competitions, start lists, results, and national top lists.
 
     ## Dates and times
 
@@ -13,7 +13,7 @@ info:
     - `date` values are full-dates in `YYYY-MM-DD` form (e.g. `2026-05-20`).
     - `date-time` values include an explicit UTC offset, e.g.
       `2026-05-20T14:30:15+02:00`. A trailing `Z` denotes UTC (i.e. `+00:00`).
-      For scheduled events the offset reflects the local time at the venue, so
+      For scheduled competitions the offset reflects the local time at the venue, so
       both the exact instant and the local wall-clock time are preserved.
 
     ## Rate limiting
@@ -45,61 +45,6 @@ security:
 
 # ----------------- PATHS (API Endpoints) -----------------
 paths:
-  /events:
-    get:
-      tags:
-        - Events
-      summary: Retrieve a calendar of upcoming and past athletics events.
-      operationId: getEvents
-      security: []  # public
-      parameters:
-        - name: status
-          in: query
-          description: Filter events by status.
-          required: false
-          schema:
-            type: string
-            enum: [Upcoming, Completed, Registration_Open]
-        - name: year
-          in: query
-          description: Filter events by year.
-          required: false
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: A list of detailed events.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/EventDetails"
-
-  /events/{event_id}/startlist:
-    get:
-      tags:
-        - Events
-      summary: Get the official start list and heat/lane assignments for an event.
-      operationId: getStartList
-      security: []  # public
-      parameters:
-        - name: event_id
-          in: path
-          description: The unique identifier of the competition.
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: The start list grouped by discipline and series.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/StartEntry"
-
   /athletes/{athlete_id}/prs:
     get:
       tags:
@@ -150,20 +95,20 @@ paths:
             type: string
         - name: location
           in: query
-          description: Location of the events.
+          description: Location of the competition.
           required: false
           schema:
             type: string
         - name: date_from
           in: query
-          description: Get all events after this date.
+          description: Get all results after this date.
           required: false
           schema:
             type: string
             format: date
         - name: date_to
           in: query
-          description: Get all events before this date.
+          description: Get all results before this date.
           required: false
           schema:
             type: string
@@ -202,12 +147,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/PaginatedAthleteResults"
 
-  /rankings/{discipline}:
+  /top-lists/{discipline}:
     get:
       tags:
-        - Rankings
-      summary: Get national ranking data for a specific discipline and category.
-      operationId: getNationalRanking
+        - Top Lists
+      summary: Get national top-list data for a specific discipline and category.
+      operationId: getNationalTopList
       security: []  # public
       parameters:
         - name: discipline
@@ -230,7 +175,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/RankingEntry"
+                  $ref: "#/components/schemas/TopListEntry"
 
   /users:
     get:
@@ -571,20 +516,20 @@ paths:
             type: string
         - name: location
           in: query
-          description: Location of the events.
+          description: Location of the competition.
           required: false
           schema:
             type: string
         - name: date_from
           in: query
-          description: Get all events after this date.
+          description: Get all results after this date.
           required: false
           schema:
             type: string
             format: date
         - name: date_to
           in: query
-          description: Get all events before this date.
+          description: Get all results before this date.
           required: false
           schema:
             type: string
@@ -627,9 +572,23 @@ paths:
     get:
       tags:
         - Competitions
-      summary: Retrieve all competitions.
+      summary: Retrieve a calendar of upcoming and past competitions.
       operationId: getCompetitions
       security: []  # public
+      parameters:
+        - name: status
+          in: query
+          description: Filter competitions by status.
+          required: false
+          schema:
+            type: string
+            enum: [Upcoming, Completed, Registration_Open]
+        - name: year
+          in: query
+          description: Filter competitions by year.
+          required: false
+          schema:
+            type: integer
       responses:
         "200":
           description: A list of competitions.
@@ -656,6 +615,25 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Competition"
+
+  /competitions/{competition_id}/startlist:
+    get:
+      tags:
+        - Competitions
+      summary: Get the official start list and heat/lane assignments for a competition.
+      operationId: getStartList
+      security: []  # public
+      parameters:
+        - $ref: "#/components/parameters/CompetitionId"
+      responses:
+        "200":
+          description: The start list grouped by discipline and series.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StartEntry"
 
   /notifications:
     get:
@@ -810,38 +788,6 @@ components:
           type: string
           example: "Rate limit exceeded. Please retry later."
 
-    EventDetails:
-      type: object
-      description: Detailed information about an athletics competition.
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the event (e.g., '20250726_NK').
-          example: "NK2025"
-        name:
-          type: string
-          description: The official name of the event (e.g., 'ASICS NK Atletiek 2025').
-        date:
-          type: string
-          format: date
-          description: The start date of the event.
-        location:
-          type: string
-          description: Venue or city where the event is held.
-        organizer:
-          type: string
-          description: The organizing club or body.
-          example: "AV Flevo Delta"
-        registration_status:
-          type: string
-          description: Current status of athlete registration.
-          enum: [Open, Closed, Full, Not_Applicable]
-          example: "Open"
-        results_url:
-          type: string
-          format: url
-          description: Direct link to the public results page for the event.
-
     StartEntry:
       type: object
       description: A single entry in a start list, tied to a specific heat/series.
@@ -908,9 +854,9 @@ components:
           items:
             $ref: "#/components/schemas/Performance"
 
-    RankingEntry:
+    TopListEntry:
       type: object
-      description: An entry on a specific national ranking list.
+      description: An entry on a specific national top list.
       properties:
         position:
           type: integer
@@ -924,16 +870,16 @@ components:
         best_performance:
           $ref: "#/components/schemas/Performance"
 
-    EventPerformance:
+    CompetitionResult:
       type: object
       description: A single competition result entry for an athlete.
       properties:
-        event_id:
+        competition_id:
           type: string
-          description: Unique identifier of the event.
-        event_name:
+          description: Unique identifier of the competition.
+        competition_name:
           type: string
-          description: Public name of the event.
+          description: Public name of the competition.
         discipline:
           type: string
           description: Discipline in which the athlete competed.
@@ -952,14 +898,14 @@ components:
           example: "+1.2"
         rank:
           type: integer
-          description: Finishing position in the event/heat.
+          description: Finishing position in the discipline/heat.
         date:
           type: string
           format: date
           description: Date on which the performance was recorded.
         location:
           type: string
-          description: City or venue where the event took place.
+          description: City or venue where the competition took place.
 
     PaginationMeta:
       type: object
@@ -990,7 +936,7 @@ components:
           type: array
           description: Athlete result entries for the current page.
           items:
-            $ref: "#/components/schemas/EventPerformance"
+            $ref: "#/components/schemas/CompetitionResult"
         pagination:
           $ref: "#/components/schemas/PaginationMeta"
 
@@ -1016,9 +962,9 @@ components:
     ClubResult:
       description: >-
         A single competition result for one of a club's athletes. Extends
-        `EventPerformance` with the athlete the result belongs to.
+        `CompetitionResult` with the athlete the result belongs to.
       allOf:
-        - $ref: "#/components/schemas/EventPerformance"
+        - $ref: "#/components/schemas/CompetitionResult"
         - type: object
           properties:
             athlete:
@@ -1369,17 +1315,19 @@ components:
 
     Competition:
       type: object
-      description: An athletics competition.
+      description: An athletics competition (meet) and its calendar details.
       properties:
         id:
           type: string
           example: "123"
         name:
           type: string
+          description: The official name of the competition (e.g., 'ASICS NK Atletiek 2025').
           example: "Avondmeeting"
         date:
           type: string
           format: date
+          description: The start date of the competition.
           example: "2025-11-28"
         country:
           type: string
@@ -1387,6 +1335,13 @@ components:
         city:
           type: string
           example: "Brussels"
+        location:
+          type: string
+          description: Venue or stadium where the competition is held.
+        organizer:
+          type: string
+          description: The organizing club or body.
+          example: "AV Flevo Delta"
         start_time:
           type: string
           format: date-time
@@ -1398,6 +1353,11 @@ components:
         participants:
           type: integer
           example: 154
+        registration_status:
+          type: string
+          description: Current status of athlete registration.
+          enum: [Open, Closed, Full, Not_Applicable]
+          example: "Open"
         start_date_registrations:
           type: string
           format: date-time
@@ -1406,6 +1366,10 @@ components:
           type: string
           format: date-time
           example: "2025-11-28T23:59:00+01:00"
+        results_url:
+          type: string
+          format: url
+          description: Direct link to the public results page for the competition.
         description:
           type: string
           description: HTML-supported description.
@@ -1457,12 +1421,10 @@ components:
           example: null
 
 tags:
-  - name: Events
-    description: Athletics events and start lists.
   - name: Athletes
     description: Athlete results, records and personal bests.
-  - name: Rankings
-    description: National rankings.
+  - name: Top Lists
+    description: National top lists.
   - name: Users
     description: User accounts, profiles, preferences and media.
   - name: Clubs
