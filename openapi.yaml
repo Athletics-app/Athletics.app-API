@@ -2,76 +2,58 @@ openapi: 3.0.0
 info:
   title: Atletiek.nu Competition Data API
   description: |
-    A refined, hypothetical API for accessing competition data managed by Atletiek.nu, 
-    focusing on events, start lists, results, and national rankings.
+    A refined, hypothetical API for accessing competition data managed by Atletiek.nu,
+    focusing on competitions, start lists, results, and national top lists.
+
+    ## Dates and times
+
+    All temporal values follow [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339)
+    (a profile of ISO 8601):
+
+    - `date` values are full-dates in `YYYY-MM-DD` form (e.g. `2026-05-20`).
+    - `date-time` values include an explicit UTC offset, e.g.
+      `2026-05-20T14:30:15+02:00`. A trailing `Z` denotes UTC (i.e. `+00:00`).
+      For scheduled competitions the offset reflects the local time at the venue, so
+      both the exact instant and the local wall-clock time are preserved.
+
+    ## Rate limiting
+
+    Requests are rate limited per API key. Every response includes the
+    following headers describing the caller's current quota:
+
+    - `X-RateLimit-Limit` — the maximum number of requests allowed in the
+      current window.
+    - `X-RateLimit-Remaining` — the number of requests remaining in the
+      current window.
+    - `X-RateLimit-Reset` — the time at which the current window resets, as a
+      Unix timestamp (seconds since the epoch).
+
+    When the limit is exceeded the API responds with `429 Too Many Requests`
+    and a `Retry-After` header indicating how many seconds to wait before
+    retrying.
   version: 1.1.0
 servers:
   - url: https://api.atletiek.nu/v1
     description: Primary API server for public access
 
+# ----------------- SECURITY -----------------
+# By default every operation requires an API key sent as a bearer token in the
+# Authorization header (`Authorization: Bearer <api-key>`). Operations that are
+# publicly accessible override this with an empty `security: []`.
+security:
+  - ApiKeyAuth: []
+
 # ----------------- PATHS (API Endpoints) -----------------
 paths:
-  /events:
+  /athletes/{athlete_id}/prs:
     get:
       tags:
-        - Wedstrijden (Events)
-      summary: Retrieve a calendar of upcoming and past athletics events.
-      operationId: getEvents
-      parameters:
-        - name: status
-          in: query
-          description: Filter events by status.
-          required: false
-          schema:
-            type: string
-            enum: [Upcoming, Completed, Registration_Open]
-        - name: year
-          in: query
-          description: Filter events by year.
-          required: false
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: A list of detailed events.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/EventDetails"
-
-  /events/{eventId}/startlist:
-    get:
-      tags:
-        - Wedstrijden (Events)
-      summary: Get the official start list and heat/lane assignments for an event.
-      operationId: getStartList
-      parameters:
-        - name: eventId
-          in: path
-          description: The unique identifier of the competition.
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: The start list grouped by discipline and series.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/StartEntry"
-
-  /athletes/{atleetId}/prs:
-    get:
-      tags:
-        - Atleten (Athletes)
+        - Athletes
       summary: Retrieve the Personal Best (PR) and Season Best (SB) records for an athlete.
       operationId: getAthletePersonalBests
+      security: []  # public
       parameters:
-        - name: atleetId
+        - name: athlete_id
           in: path
           description: The unique ID or KNAU/Atletiekunie license number of the athlete.
           required: true
@@ -85,14 +67,15 @@ paths:
               schema:
                 $ref: "#/components/schemas/AthleteBests"
 
-  /athletes/{athleteId}/results:
+  /athletes/{athlete_id}/results:
     get:
       tags:
-        - Atleten (Athletes)
+        - Athletes
       summary: Get results of a specific athlete.
       operationId: getAthleteResults
+      security: []  # public
       parameters:
-        - name: athleteId
+        - name: athlete_id
           in: path
           description: The id of the athlete
           required: true
@@ -106,26 +89,26 @@ paths:
             type: integer
         - name: discipline
           in: query
-          description: The specific track and field discipline (e.g., 100m, Speerwerpen).
+          description: The specific track and field discipline (e.g., 100m, Javelin).
           required: false
           schema:
             type: string
         - name: location
           in: query
-          description: Location of the events.
+          description: Location of the competition.
           required: false
           schema:
             type: string
         - name: date_from
           in: query
-          description: Get all events after this date.
+          description: Get all results after this date.
           required: false
           schema:
             type: string
             format: date
         - name: date_to
           in: query
-          description: Get all events before this date.
+          description: Get all results before this date.
           required: false
           schema:
             type: string
@@ -156,7 +139,6 @@ paths:
               - date_asc
               - date_desc
             default: date_desc
-
       responses:
         "200":
           description: A paginated list of results for the given athlete.
@@ -165,22 +147,23 @@ paths:
               schema:
                 $ref: "#/components/schemas/PaginatedAthleteResults"
 
-  /rankings/{discipline}:
+  /top-lists/{discipline}:
     get:
       tags:
-        - Ranglijsten (Rankings)
-      summary: Get national ranking data for a specific discipline and category.
-      operationId: getNationalRanking
+        - Top Lists
+      summary: Get national top-list data for a specific discipline and category.
+      operationId: getNationalTopList
+      security: []  # public
       parameters:
         - name: discipline
           in: path
-          description: The specific track and field discipline (e.g., 100m, Speerwerpen).
+          description: The specific track and field discipline (e.g., 100m, Javelin).
           required: true
           schema:
             type: string
         - name: category
           in: query
-          description: Filter by age/gender category (e.g., Senioren Mannen, Meisjes U18).
+          description: Filter by age/gender category (e.g., Senior Men, U18 Girls).
           required: true
           schema:
             type: string
@@ -192,65 +175,641 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/RankingEntry"
+                  $ref: "#/components/schemas/TopListEntry"
+
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Retrieve all users.
+      operationId: getUsers
+      responses:
+        "200":
+          description: A list of users.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+    post:
+      tags:
+        - Users
+      summary: Create a new user.
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+      responses:
+        "201":
+          description: The created user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  /users/{user_id}:
+    get:
+      tags:
+        - Users
+      summary: Retrieve a specific user by ID.
+      operationId: getUser
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "200":
+          description: A single user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    put:
+      tags:
+        - Users
+      summary: Update a specific user by ID.
+      operationId: updateUser
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUpdate"
+      responses:
+        "200":
+          description: The updated user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    delete:
+      tags:
+        - Users
+      summary: Delete a specific user by ID.
+      operationId: deleteUser
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "200":
+          description: The user was deleted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+
+  /users/{user_id}/profile:
+    get:
+      tags:
+        - Users
+      summary: Retrieve personal user info by ID.
+      operationId: getUserProfile
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "200":
+          description: The user's profile.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+
+  /users/{user_id}/preferences:
+    get:
+      tags:
+        - Users
+      summary: Retrieve user settings / preferences.
+      operationId: getUserPreferences
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "200":
+          description: The user's preferences.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserPreferences"
+    put:
+      tags:
+        - Users
+      summary: Update user settings / preferences.
+      operationId: updateUserPreferences
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserPreferencesInput"
+      responses:
+        "200":
+          description: The updated preferences.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserPreferences"
+
+  /users/{user_id}/media:
+    get:
+      tags:
+        - Users
+      summary: List media for a user.
+      operationId: getUserMedia
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "200":
+          description: A list of the user's media.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Media"
+    post:
+      tags:
+        - Users
+      summary: Upload user media.
+      operationId: uploadUserMedia
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        "201":
+          description: The uploaded media.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Media"
+
+  /users/{user_id}/media/{media_id}:
+    get:
+      tags:
+        - Users
+      summary: Retrieve a specific media file for a user.
+      operationId: getUserMediaItem
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+        - $ref: "#/components/parameters/MediaId"
+      responses:
+        "200":
+          description: The requested media.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Media"
+    delete:
+      tags:
+        - Users
+      summary: Delete an individual media file.
+      operationId: deleteUserMediaItem
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+        - $ref: "#/components/parameters/MediaId"
+      responses:
+        "200":
+          description: The media was deleted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+
+  /clubs:
+    get:
+      tags:
+        - Clubs
+      summary: Retrieve all clubs.
+      operationId: getClubs
+      security: []  # public
+      responses:
+        "200":
+          description: A list of clubs.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Club"
+    post:
+      tags:
+        - Clubs
+      summary: Create a new club.
+      operationId: createClub
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClubInput"
+      responses:
+        "201":
+          description: The created club.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Club"
+
+  /clubs/{club_id}:
+    get:
+      tags:
+        - Clubs
+      summary: Retrieve a specific club by ID.
+      operationId: getClub
+      security: []  # public
+      parameters:
+        - $ref: "#/components/parameters/ClubId"
+      responses:
+        "200":
+          description: A single club.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Club"
+    put:
+      tags:
+        - Clubs
+      summary: Update a specific club by ID.
+      operationId: updateClub
+      parameters:
+        - $ref: "#/components/parameters/ClubId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClubInput"
+      responses:
+        "200":
+          description: The updated club.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Club"
+    delete:
+      tags:
+        - Clubs
+      summary: Delete a specific club by ID.
+      operationId: deleteClub
+      parameters:
+        - $ref: "#/components/parameters/ClubId"
+      responses:
+        "200":
+          description: The club was deleted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+
+  /clubs/{club_id}/members:
+    get:
+      tags:
+        - Clubs
+      summary: List members of a club.
+      operationId: getClubMembers
+      security: []  # public
+      parameters:
+        - $ref: "#/components/parameters/ClubId"
+      responses:
+        "200":
+          description: A list of club members.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Athlete"
+
+  /clubs/{club_id}/results:
+    get:
+      tags:
+        - Clubs
+      summary: Get recent results for all athletes of a club.
+      description: >-
+        Retrieve the latest competition results for every athlete of a club in
+        one paginated, server-sorted call. Mirrors the filter vocabulary of
+        `GET /athletes/{athlete_id}/results`.
+      operationId: getClubResults
+      security: []  # public
+      parameters:
+        - $ref: "#/components/parameters/ClubId"
+        - name: season
+          in: query
+          description: Athletics season
+          required: false
+          schema:
+            type: integer
+        - name: discipline
+          in: query
+          description: The specific track and field discipline (e.g., 100m, Javelin).
+          required: false
+          schema:
+            type: string
+        - name: location
+          in: query
+          description: Location of the competition.
+          required: false
+          schema:
+            type: string
+        - name: date_from
+          in: query
+          description: Get all results after this date.
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          description: Get all results before this date.
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: page
+          in: query
+          description: Page number of query.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+        - name: limit
+          in: query
+          description: Max amount of results per page.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 25
+            maximum: 100
+        - name: sort
+          in: query
+          description: Sort by result date (`date_asc` oldest first, `date_desc` newest first).
+          required: false
+          schema:
+            type: string
+            enum:
+              - date_asc
+              - date_desc
+            default: date_desc
+      responses:
+        "200":
+          description: A paginated list of results for all athletes of the club.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedClubResults"
+
+  /competitions:
+    get:
+      tags:
+        - Competitions
+      summary: Retrieve a calendar of upcoming and past competitions.
+      operationId: getCompetitions
+      security: []  # public
+      parameters:
+        - name: status
+          in: query
+          description: Filter competitions by status.
+          required: false
+          schema:
+            type: string
+            enum: [Upcoming, Completed, Registration_Open]
+        - name: year
+          in: query
+          description: Filter competitions by year.
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A list of competitions.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Competition"
+
+  /competitions/{competition_id}:
+    get:
+      tags:
+        - Competitions
+      summary: Retrieve a specific competition by ID.
+      operationId: getCompetition
+      security: []  # public
+      parameters:
+        - $ref: "#/components/parameters/CompetitionId"
+      responses:
+        "200":
+          description: A single competition.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Competition"
+
+  /competitions/{competition_id}/startlist:
+    get:
+      tags:
+        - Competitions
+      summary: Get the official start list and heat/lane assignments for a competition.
+      operationId: getStartList
+      security: []  # public
+      parameters:
+        - $ref: "#/components/parameters/CompetitionId"
+      responses:
+        "200":
+          description: The start list grouped by discipline and series.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StartEntry"
+
+  /notifications:
+    get:
+      tags:
+        - Notifications
+      summary: List of notifications.
+      operationId: getNotifications
+      responses:
+        "200":
+          description: A list of notifications.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Notification"
+
+  /notifications/{notification_id}:
+    get:
+      tags:
+        - Notifications
+      summary: Retrieve a specific notification.
+      operationId: getNotification
+      parameters:
+        - name: notification_id
+          in: path
+          required: true
+          description: The notification identifier.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A single notification.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Notification"
+    delete:
+      tags:
+        - Notifications
+      summary: Delete a notification.
+      operationId: deleteNotification
+      parameters:
+        - name: notification_id
+          in: path
+          required: true
+          description: The notification identifier.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The notification was deleted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
 
 # ----------------- COMPONENTS (Data Structures) -----------------
 components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        API key supplied as a bearer token in the `Authorization` header, e.g.
+        `Authorization: Bearer <api-key>`.
+  headers:
+    X-RateLimit-Limit:
+      description: The maximum number of requests allowed in the current window.
+      schema:
+        type: integer
+        example: 1000
+    X-RateLimit-Remaining:
+      description: The number of requests remaining in the current window.
+      schema:
+        type: integer
+        example: 999
+    X-RateLimit-Reset:
+      description: >-
+        The time at which the current rate-limit window resets, as a Unix
+        timestamp (seconds since the epoch).
+      schema:
+        type: integer
+        example: 1780046400
+    Retry-After:
+      description: >-
+        The number of seconds to wait before making another request. Sent on
+        `429 Too Many Requests` responses.
+      schema:
+        type: integer
+        example: 30
+  responses:
+    TooManyRequests:
+      description: The rate limit has been exceeded.
+      headers:
+        X-RateLimit-Limit:
+          $ref: "#/components/headers/X-RateLimit-Limit"
+        X-RateLimit-Remaining:
+          $ref: "#/components/headers/X-RateLimit-Remaining"
+        X-RateLimit-Reset:
+          $ref: "#/components/headers/X-RateLimit-Reset"
+        Retry-After:
+          $ref: "#/components/headers/Retry-After"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+  parameters:
+    UserId:
+      name: user_id
+      in: path
+      required: true
+      description: The user identifier.
+      schema:
+        type: string
+    ClubId:
+      name: club_id
+      in: path
+      required: true
+      description: The club identifier.
+      schema:
+        type: string
+    CompetitionId:
+      name: competition_id
+      in: path
+      required: true
+      description: The competition identifier.
+      schema:
+        type: string
+    MediaId:
+      name: media_id
+      in: path
+      required: true
+      description: The media identifier.
+      schema:
+        type: string
+
   schemas:
-    EventDetails:
+    Message:
       type: object
-      description: Detailed information about an athletics competition.
+      description: A generic message response.
       properties:
-        id:
+        message:
           type: string
-          description: Unique identifier for the event (e.g., '20250726_NK').
-          example: "NK2025"
-        naam:
+          example: "Resource deleted successfully."
+
+    Error:
+      type: object
+      description: An error response.
+      properties:
+        message:
           type: string
-          description: The official name of the event (e.g., 'ASICS NK Atletiek 2025').
-        datum:
-          type: string
-          format: date
-          description: The start date of the event.
-        locatie:
-          type: string
-          description: Venue or city where the event is held.
-        organisator:
-          type: string
-          description: The organizing club or body.
-          example: "AV Flevo Delta"
-        inschrijving_status:
-          type: string
-          description: Current status of athlete registration.
-          enum: [Open, Closed, Full, Not_Applicable]
-          example: "Open"
-        uitslagen_url:
-          type: string
-          format: url
-          description: Direct link to the public results page for the event.
+          example: "Rate limit exceeded. Please retry later."
 
     StartEntry:
       type: object
       description: A single entry in a start list, tied to a specific heat/series.
       properties:
-        atleetId:
+        athlete_id:
           type: string
           description: ID of the athlete.
-        naam:
+        name:
           type: string
         club:
           type: string
           description: Athlete's affiliated club.
         discipline:
           type: string
-          example: "100m Vrouwen"
-        serie:
+          example: "100m Women"
+        series:
           type: integer
           description: The heat or series number.
-        baan:
+        lane:
           type: integer
           description: The lane number (for track events) or start group (for field events).
-        ingevoerde_prestatie:
+        entered_performance:
           type: string
           description: The performance used for seeding the heat/group (PB, SB, or season best).
           example: "11.23"
@@ -261,18 +820,18 @@ components:
       properties:
         discipline:
           type: string
-          description: The specific discipline (e.g., "400m Horden").
-        prestatie:
+          description: The specific discipline (e.g., "400m Hurdles").
+        performance:
           type: string
           description: The recorded performance (time or distance).
           example: "51.45"
-        eenheid:
+        unit:
           type: string
-          enum: [sec, m, cm, punten]
-        datum:
+          enum: [sec, m, cm, points]
+        date:
           type: string
           format: date
-        locatie:
+        location:
           type: string
           description: Location where the performance was achieved.
 
@@ -280,47 +839,47 @@ components:
       type: object
       description: Athlete's profile with their best recorded performances.
       properties:
-        atleetId:
+        athlete_id:
           type: string
-        volledige_naam:
+        full_name:
           type: string
-        geboortejaar:
+        birth_year:
           type: integer
-        persoonlijke_records:
+        personal_records:
           type: array
           items:
             $ref: "#/components/schemas/Performance"
-        seizoen_records:
+        season_records:
           type: array
           items:
             $ref: "#/components/schemas/Performance"
 
-    RankingEntry:
+    TopListEntry:
       type: object
-      description: An entry on a specific national ranking list.
+      description: An entry on a specific national top list.
       properties:
-        positie:
+        position:
           type: integer
           description: The athlete's rank in the list.
-        atleetId:
+        athlete_id:
           type: string
-        naam:
+        name:
           type: string
         club:
           type: string
-        beste_prestatie:
+        best_performance:
           $ref: "#/components/schemas/Performance"
 
-    EventPerformance:
+    CompetitionResult:
       type: object
       description: A single competition result entry for an athlete.
       properties:
-        eventId:
+        competition_id:
           type: string
-          description: Unique identifier of the event.
-        eventName:
+          description: Unique identifier of the competition.
+        competition_name:
           type: string
-          description: Public name of the event.
+          description: Public name of the competition.
         discipline:
           type: string
           description: Discipline in which the athlete competed.
@@ -332,21 +891,21 @@ components:
         unit:
           type: string
           description: Unit of the recorded performance.
-          enum: [sec, m, cm, punten]
+          enum: [sec, m, cm, points]
         wind:
           type: string
           description: Wind reading for relevant disciplines.
           example: "+1.2"
         rank:
           type: integer
-          description: Finishing position in the event/heat.
+          description: Finishing position in the discipline/heat.
         date:
           type: string
           format: date
           description: Date on which the performance was recorded.
         location:
           type: string
-          description: City or venue where the event took place.
+          description: City or venue where the competition took place.
 
     PaginationMeta:
       type: object
@@ -360,11 +919,11 @@ components:
           type: integer
           minimum: 1
           description: Maximum number of items returned per page.
-        totalItems:
+        total_items:
           type: integer
           minimum: 0
           description: Total number of matching items.
-        totalPages:
+        total_pages:
           type: integer
           minimum: 0
           description: Total number of pages based on page size.
@@ -377,6 +936,500 @@ components:
           type: array
           description: Athlete result entries for the current page.
           items:
-            $ref: "#/components/schemas/EventPerformance"
+            $ref: "#/components/schemas/CompetitionResult"
         pagination:
           $ref: "#/components/schemas/PaginationMeta"
+
+    ClubResultAthlete:
+      type: object
+      description: >-
+        Minimal athlete reference attached to a club result. For full athlete
+        data, call `GET /athletes/{athlete_id}`.
+      properties:
+        id:
+          type: string
+          example: "A123"
+        first_name:
+          type: string
+          example: "John"
+        last_name:
+          type: string
+          example: "Doe"
+        bib_number:
+          type: integer
+          example: 123
+
+    ClubResult:
+      description: >-
+        A single competition result for one of a club's athletes. Extends
+        `CompetitionResult` with the athlete the result belongs to.
+      allOf:
+        - $ref: "#/components/schemas/CompetitionResult"
+        - type: object
+          properties:
+            athlete:
+              $ref: "#/components/schemas/ClubResultAthlete"
+
+    PaginatedClubResults:
+      type: object
+      description: Paginated results across all athletes of a club.
+      properties:
+        items:
+          type: array
+          description: Club result entries for the current page.
+          items:
+            $ref: "#/components/schemas/ClubResult"
+        pagination:
+          $ref: "#/components/schemas/PaginationMeta"
+
+    Nationality:
+      type: object
+      description: A nationality.
+      properties:
+        iso:
+          type: string
+          description: ISO country code.
+          example: "BE"
+        description:
+          type: string
+          example: "Belgian"
+        flag:
+          type: string
+          format: url
+          description: URL to the flag image.
+
+    Language:
+      type: object
+      description: A language.
+      properties:
+        iso:
+          type: string
+          description: ISO language code.
+          example: "nl-BE"
+        description:
+          type: string
+          example: "Vlaams"
+
+    Club:
+      type: object
+      description: An athletics club.
+      properties:
+        id:
+          type: string
+          example: "ID"
+        name:
+          type: string
+          example: "demo name"
+        short_name:
+          type: string
+          example: "DN"
+        country:
+          type: string
+          example: "NL"
+        city:
+          type: string
+          example: "Brussels"
+        email:
+          type: string
+          format: email
+          example: "DN@atletiek.be"
+
+    ClubInput:
+      type: object
+      description: Payload for creating or updating a club.
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: "demo name"
+        short_name:
+          type: string
+          example: "DN"
+        country:
+          type: string
+          example: "NL"
+        city:
+          type: string
+          example: "Brussels"
+        email:
+          type: string
+          format: email
+          example: "DN@atletiek.be"
+
+    AthleteLicense:
+      type: object
+      description: An athlete's federation license.
+      properties:
+        federation:
+          type: string
+          example: "VAL"
+        start_date:
+          type: string
+          format: date
+          example: "2025-11-01"
+        end_date:
+          type: string
+          format: date
+          example: "2026-10-31"
+        bib_number:
+          type: integer
+          example: 123
+
+    PersonalBest:
+      type: object
+      description: A personal best performance.
+      properties:
+        discipline:
+          type: string
+          example: "100m"
+        result:
+          type: string
+          example: "10.55"
+        wind:
+          type: string
+          example: "+2.0"
+        city:
+          type: string
+          example: "Brussels"
+        date:
+          type: string
+          format: date
+          example: "2025-11-28"
+        competition_id:
+          type: string
+          example: "123456"
+        country:
+          type: string
+          example: "BE"
+
+    Athlete:
+      type: object
+      description: An athlete profile.
+      properties:
+        first_name:
+          type: string
+          example: "John"
+        last_name:
+          type: string
+          example: "Doe"
+        club:
+          $ref: "#/components/schemas/Club"
+        nationality:
+          $ref: "#/components/schemas/Nationality"
+        age:
+          type: integer
+          example: 22
+        speciality:
+          type: array
+          items:
+            type: string
+          example: ["100m", "200m"]
+        bib_number:
+          type: integer
+          example: 123
+        personal_bests:
+          type: array
+          items:
+            $ref: "#/components/schemas/PersonalBest"
+        seasons_bests:
+          type: array
+          items:
+            $ref: "#/components/schemas/PersonalBest"
+        competitions:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserCompetition"
+
+    UserCompetition:
+      type: object
+      description: A competition an athlete is registered for or has participated in.
+      properties:
+        name:
+          type: string
+          example: "Avondmeeting"
+        start_time:
+          type: string
+          format: date-time
+          example: "2025-10-10T14:00:00+02:00"
+        end_time:
+          type: string
+          format: date-time
+          example: "2025-10-10T18:00:00+02:00"
+        organizer:
+          type: string
+          example: "Belgian Athletics"
+        bib_number:
+          type: integer
+          example: 123
+        first_name:
+          type: string
+          example: "John"
+        last_name:
+          type: string
+          example: "Doe"
+        club:
+          $ref: "#/components/schemas/Club"
+        category:
+          type: string
+          example: "SEN"
+        disciplines:
+          type: array
+          items:
+            type: string
+
+    User:
+      type: object
+      description: >-
+        A user account. Personal data (email, birth date) is intentionally
+        excluded from this representation; use the authenticated
+        `GET /users/{user_id}/profile` endpoint to retrieve a user's own
+        personal information.
+      properties:
+        id:
+          type: string
+          example: "ID"
+        first_name:
+          type: string
+          example: "John"
+        last_name:
+          type: string
+          example: "Doe"
+        nationality:
+          $ref: "#/components/schemas/Nationality"
+        club:
+          $ref: "#/components/schemas/Club"
+
+    UserInput:
+      type: object
+      description: Payload for creating a user.
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: "john.doe@gmail.com"
+        first_name:
+          type: string
+          example: "John"
+        last_name:
+          type: string
+          example: "Doe"
+        birth_date:
+          type: string
+          format: date
+          example: "2025-11-30"
+        nationality_id:
+          type: string
+          example: "NL"
+        club_id:
+          type: string
+          example: "CLUBID"
+        password:
+          type: string
+          format: password
+          example: "123456789"
+
+    UserUpdate:
+      type: object
+      description: Payload for updating a user.
+      properties:
+        id:
+          type: string
+          example: "userid"
+        email:
+          type: string
+          format: email
+          example: "john.doe@gmail.com"
+        first_name:
+          type: string
+          example: "John"
+        last_name:
+          type: string
+          example: "Doe"
+        birth_date:
+          type: string
+          format: date
+          example: "2025-11-30"
+        nationality_id:
+          type: string
+          example: "NL"
+        club_id:
+          type: string
+          example: "CLUBID"
+
+    UserProfile:
+      type: object
+      description: A user's personal profile.
+      properties:
+        id:
+          type: string
+          example: "ID"
+        email:
+          type: string
+          format: email
+          example: "john.doe@gmail.com"
+        first_name:
+          type: string
+          example: "John"
+        last_name:
+          type: string
+          example: "Doe"
+        birth_date:
+          type: string
+          format: date
+          example: "2025-11-30"
+        nationality:
+          $ref: "#/components/schemas/Nationality"
+        gender:
+          type: string
+          enum: [MALE, FEMALE, OTHER]
+          example: "MALE"
+        language:
+          $ref: "#/components/schemas/Language"
+        athlete_license:
+          $ref: "#/components/schemas/AthleteLicense"
+        club:
+          $ref: "#/components/schemas/Club"
+        competitions:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserCompetition"
+
+    UserPreferences:
+      type: object
+      description: A user's settings / preferences.
+      properties:
+        language:
+          $ref: "#/components/schemas/Language"
+
+    UserPreferencesInput:
+      type: object
+      description: Payload for updating user preferences.
+      properties:
+        language_id:
+          type: string
+          example: "NL"
+
+    Competition:
+      type: object
+      description: An athletics competition (meet) and its calendar details.
+      properties:
+        id:
+          type: string
+          example: "123"
+        name:
+          type: string
+          description: The official name of the competition (e.g., 'ASICS NK Atletiek 2025').
+          example: "Avondmeeting"
+        date:
+          type: string
+          format: date
+          description: The start date of the competition.
+          example: "2025-11-28"
+        country:
+          type: string
+          example: "BE"
+        city:
+          type: string
+          example: "Brussels"
+        location:
+          type: string
+          description: Venue or stadium where the competition is held.
+        organizer:
+          type: string
+          description: The organizing club or body.
+          example: "AV Flevo Delta"
+        start_time:
+          type: string
+          format: date-time
+          example: "2025-11-28T13:50:00+01:00"
+        end_time:
+          type: string
+          format: date-time
+          example: "2025-11-28T17:30:00+01:00"
+        participants:
+          type: integer
+          example: 154
+        registration_status:
+          type: string
+          description: Current status of athlete registration.
+          enum: [Open, Closed, Full, Not_Applicable]
+          example: "Open"
+        start_date_registrations:
+          type: string
+          format: date-time
+          example: "2025-11-28T12:00:00+01:00"
+        end_date_registrations:
+          type: string
+          format: date-time
+          example: "2025-11-28T23:59:00+01:00"
+        results_url:
+          type: string
+          format: url
+          description: Direct link to the public results page for the competition.
+        description:
+          type: string
+          description: HTML-supported description.
+
+    Media:
+      type: object
+      description: A media file.
+      properties:
+        id:
+          type: string
+          example: "id"
+        uploaded_on:
+          type: string
+          format: date-time
+          example: "2025-11-28T20:22:00+01:00"
+        media_url:
+          type: string
+          format: url
+          example: "URLTOMEDIA"
+        file_type:
+          type: string
+          example: ".png"
+
+    Notification:
+      type: object
+      description: A notification.
+      properties:
+        id:
+          type: string
+          example: "123"
+        title:
+          type: string
+          example: "New registration"
+        body:
+          type: string
+          example: "Description"
+        status:
+          type: string
+          enum: [READ, UNREAD]
+          example: "UNREAD"
+        received_on:
+          type: string
+          format: date-time
+          example: "2025-11-28T22:59:00+01:00"
+        read_on:
+          type: string
+          format: date-time
+          nullable: true
+          example: null
+
+tags:
+  - name: Athletes
+    description: Athlete results, records and personal bests.
+  - name: Top Lists
+    description: National top lists.
+  - name: Users
+    description: User accounts, profiles, preferences and media.
+  - name: Clubs
+    description: Clubs and their members.
+  - name: Competitions
+    description: Competitions and live results.
+  - name: Notifications
+    description: User notifications.
