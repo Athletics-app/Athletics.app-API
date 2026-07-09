@@ -5,6 +5,8 @@
 - [Guidelines](#guidelines)
 - [Contributing - New Endpoint Requests](#contributing---new-endpoint-requests)
 - [Quick step-by-step guide for adding/updating an API resource](#quick-step-by-step-guide-for-addingupdating-an-api-resource)
+- [Error responses](#error-responses)
+- [Previewing the documentation](#previewing-the-documentation)
 - [HTTP Methods Legend](#http-methods-legend)
 - [Mermaid Diagram](#mermaid-diagram)
 
@@ -15,17 +17,16 @@
 - **Endpoint naming:** Use clear, consistent, and RESTful endpoint names. Prefer plural nouns (`/competitions/`, `/athletes/`) and hierarchical structure (`/competitions/{id}/categories/{category_id}/events/`).
 - **HTTP methods:** Use the correct method according to the action.
 - **Descriptions:** Provide a short, clear description of the endpoint. Include any important details, such as query parameters or filters.
-- **Documentation updates:** If you change a description, add parameters, or modify an endpoint in any way, update the Contributor column. _Contributor: John_
+- **Documentation updates:** Keep `openapi.yaml` as the source of truth. If you change a description, add parameters, modify a schema, or add an endpoint, update `openapi.yaml` in the same change.
 - **Language:** All descriptions, comments, and documentation in this repository must be written in **English**, because contributors are from different countries.
 - **Questions / clarification:** If an endpoint is unclear, open a GitHub issue and tag the contributor.
-- **Consistency:** Keep format consistent across all endpoints (tables, headings, examples).
+- **Consistency:** Keep the OpenAPI structure consistent across all endpoints (operation IDs, parameters, responses, schemas, examples, and naming).
 
 ### 2. Contributor Guidelines
 
-- **New endpoints:** Add your name in the Contributor column when you create a new endpoint.
-- **Modifications:** If you edit an endpoint description, method, or parameters, also add your name in the Contributor column.
-- **Multiple contributors:** List multiple names separated by commas, e.g., `John, Jane`.
-- **Responsibility:** The Contributor column helps track who initially proposed or last updated an endpoint, so that questions can be directed to the right person if an endpoint is unclear.
+- **New endpoints:** Add the new path, operation, parameters, responses, and schemas to `openapi.yaml`.
+- **Modifications:** If you edit an endpoint description, method, parameters, response, or schema, update the matching OpenAPI section.
+- **Responsibility:** Use GitHub issues and pull requests to track who proposed, designed, reviewed, or changed an endpoint.
 
 ## Contributing - New Endpoint Requests
 
@@ -37,86 +38,68 @@ Instead, create a **New Endpoint Request** issue:
 - Fill in the form with all the required details (purpose, method, body, etc.)
 - The issue will be automatically assigned to RecourVictor, who will design and add the endpoint following the repository standards.
 
-> This ensures consistency, proper naming, and correct DTO integration.
+> This ensures consistency, proper naming, and a complete OpenAPI specification.
 
 ## Quick step-by-step guide for adding/updating an API resource
 
-### 1) Create the resource file
+### 1) Update `openapi.yaml`
 
-- In the repo create a file:
-  docs/{resource}.md
-  > use lowercase plural for the filename (e.g. users.md, competitions.md).
-- The first line must be an H1 with the resource name in Title Case:
+- Add or update the path under `paths`.
+- Use a clear `operationId`.
+- Add tags, summary, description, security, parameters, request body, and responses as needed.
+- Keep path and field names in `snake_case`.
 
-```
-# Users
-```
+### 2) Define or reuse schemas
 
-### 2) Add endpoints using the standard endpoint block
+- Add reusable response and request models under `components.schemas`.
+- Reuse existing schemas with `$ref` and `allOf` where possible.
+- Keep pagination responses consistent with `PaginationMeta`.
+- Add examples to make the generated Redoc documentation readable.
 
-- For each endpoint in that resource, paste the endpoint template and adapt it.
-- Group related endpoints together (GET / POST / PUT / DELETE for the same path).
+### 3) Document errors
 
-Template to copy into docs/{resource}.md:
+- Add relevant `4XX` responses for invalid parameters, missing resources, or unauthorised requests.
+- Add `429 Too Many Requests` for rate-limited endpoints.
+- Add `5XX` responses only when they represent useful API behaviour for consumers. Use `500 Internal Server Error` for unexpected server-side failures.
+- Use the shared `Error` schema unless the endpoint needs a more specific error shape.
+- Do not add blanket auth errors to public endpoints that define `security: []`.
 
-```
-## `GET` /users/
+### 4) Validate the OpenAPI file
 
-| Method | Authorisation | Contributor   |
-| ------ | ------------- | ------------- |
-| `GET`  | Yes           | YOURNAMEHERE  |
+- Run the OpenAPI linting locally before opening a pull request:
 
-### Description
-Retrieve all users.
-
-### Query parameters
-- `?page` (integer) — optional
-- `?limit` (integer) — optional
-- `?sort` (string) — optional, e.g. `?sort=last_name_asc`
-
-### Body
-_None_
-
-### Response
-Path: dto/users/userget.json
+```bash
+node scripts/lint-openapi.mjs
 ```
 
-- Replace method/path/authorisation/contributor/description/query params/body/response links as needed.
-- Repeat block for each endpoint in that resource file.
+- Pull requests run the same lint in GitHub Actions. The lint fails on both errors and warnings.
 
-> **Note:** The JSON response block is automatically generated from the corresponding DTO file (`dto/{resource}/{filename}.json`) whenever a commit is made. You do **not** need to manually paste JSON into the Markdown.
+## Error responses
 
-### 3) DTOs: where & how to create them
+The OpenAPI file defines a shared `Error` schema with a `message` field. Reuse the shared response components where they fit:
 
-- Create a folder for the resource’s DTOs:
-  `dto/{resource}/`
-  (e.g. docs/dtos/users/)
-- Name each DTO file descriptively. Example naming convention:
-  - userget.json → DTO used by GET user responses
-  - userpost.json → DTO for POST /users request body
-- DTO file format: JSON Schema (recommended) or a simple typed JSON.
+- `BadRequest` (`400`) for invalid request parameters or malformed request data.
+- `NotFound` (`404`) when the addressed resource does not exist.
+- `TooManyRequests` (`429`) when the documented rate limit is exceeded.
+- `InternalServerError` (`500`) for unexpected server-side failures.
 
-### 4. Nesting DTOs (how to reference other DTOs)
+Document only the errors that apply to the endpoint. For example, public endpoints should not list authentication errors unless the operation actually requires authentication.
 
-In documentation you can show nesting by referencing the DTO name (not necessarily $ref syntax). For the live API we will expand to full objects, but for doc clarity this shorthand is allowed.
+## Previewing the documentation
 
-Example DTO that nests a club DTO by the DTO path:
+The rendered API documentation is generated from `openapi.yaml` with Redoc.
 
-```
-{
-  "club": "Path:../clubs/clubget.json"
-}
+Build a local preview file:
+
+```bash
+npx --yes @redocly/cli build-docs openapi.yaml --output redoc-preview.html --title "Athletics.app API Docs"
 ```
 
-club: "Path:../clubs/clubget.json" means: use the DTO file `dto/clubs/clubget.json` for the club object.
+Then open `redoc-preview.html` in a browser.
 
-### 5. Grouping & layout advice
+The generated `redoc-preview.html` file is ignored by git. Keep `openapi.yaml` as the source of truth.
 
-Keep a single resource per `docs/{resource}.md` file.
-
-Within that file, group endpoints logically: collection endpoints first (/users/), then resource endpoints (/users/{id}/), then sub-resources (/users/{id}/profile/, /users/{id}/media/).
-
-For complex resources, use subheadings per endpoint group (e.g., ### Authentication, ### Media, ### Admin-only).
+Pull requests run the same Redoc build in GitHub Actions and upload `redoc-preview.html` as a workflow artifact.
 
 ## HTTP Methods Legend
 

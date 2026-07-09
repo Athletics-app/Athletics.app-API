@@ -1,14 +1,26 @@
-name: OpenAPI Lint
+name: OpenAPI Docs
 on:
   pull_request:
     paths:
       - 'openapi.yaml'
+      - 'README.md'
+      - 'scripts/lint-openapi.mjs'
+      - '.github/workflows/openapi-lint.yml'
 jobs:
-  lint:
+  docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Validate OpenAPI
-        uses: stoplightio/spectral-action@v0.8.0
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          args: 'openapi.yaml'
+          node-version: 20
+      - name: Validate OpenAPI
+        run: node scripts/lint-openapi.mjs
+      - name: Build Redoc preview
+        run: npx --yes @redocly/cli build-docs openapi.yaml --output redoc-preview.html --title "Athletics.app API Docs"
+      - name: Upload Redoc preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: redoc-preview
+          path: redoc-preview.html
+          if-no-files-found: error
