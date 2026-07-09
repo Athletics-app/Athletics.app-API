@@ -32,6 +32,9 @@ info:
     and a `Retry-After` header indicating how many seconds to wait before
     retrying.
   version: 1.1.0
+  license:
+    name: CC0 1.0 Universal
+    url: https://creativecommons.org/publicdomain/zero/1.0/
 servers:
   - url: https://api.atletiek.nu/v1
     description: Primary API server for public access
@@ -66,6 +69,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AthleteBests"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /athletes/{athlete_id}/results:
     get:
@@ -146,6 +155,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PaginatedAthleteResults"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /top-lists/{discipline}:
     get:
@@ -176,6 +193,14 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/TopListEntry"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /users:
     get:
@@ -192,6 +217,10 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/User"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
     post:
       tags:
         - Users
@@ -210,6 +239,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /users/{user_id}:
     get:
@@ -226,6 +261,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
     put:
       tags:
         - Users
@@ -246,6 +287,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
     delete:
       tags:
         - Users
@@ -260,6 +309,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Message"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /users/{user_id}/profile:
     get:
@@ -276,6 +331,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserProfile"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /users/{user_id}/preferences:
     get:
@@ -292,6 +353,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserPreferences"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
     put:
       tags:
         - Users
@@ -312,6 +379,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserPreferences"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /users/{user_id}/media:
     get:
@@ -330,6 +405,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Media"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
     post:
       tags:
         - Users
@@ -351,6 +432,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Media"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /users/{user_id}/media/{media_id}:
     get:
@@ -368,6 +457,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Media"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
     delete:
       tags:
         - Users
@@ -383,6 +478,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Message"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /clubs:
     get:
@@ -400,6 +501,10 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Club"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
     post:
       tags:
         - Clubs
@@ -418,6 +523,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Club"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /clubs/{club_id}:
     get:
@@ -435,6 +546,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Club"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
     put:
       tags:
         - Clubs
@@ -455,6 +572,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Club"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
     delete:
       tags:
         - Clubs
@@ -469,6 +594,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Message"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /clubs/{club_id}/members:
     get:
@@ -488,6 +619,89 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Athlete"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /clubs/{club_id}/registrations:
+    get:
+      tags:
+        - Clubs
+      summary: Get competitions with registered athletes from a club.
+      description: >-
+        Retrieve competitions where one or more athletes from the club are
+        registered, grouped by competition with the matching athletes embedded.
+        Clubs can use this to show a weekend or date-range overview without
+        fetching every competition separately.
+      operationId: getClubRegistrations
+      security: []  # public
+      parameters:
+        - $ref: "#/components/parameters/ClubId"
+        - name: date_from
+          in: query
+          description: Include competitions starting on or after this date.
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          description: Include competitions starting on or before this date.
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: registration_status
+          in: query
+          description: Filter competitions by their registration status.
+          required: false
+          schema:
+            type: string
+            enum: [Open, Closed, Full, Not_Applicable]
+        - name: page
+          in: query
+          description: Page number of query.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+        - name: limit
+          in: query
+          description: Max amount of competitions per page.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 25
+            maximum: 100
+        - name: sort
+          in: query
+          description: Sort by competition date (`date_asc` oldest first, `date_desc` newest first).
+          required: false
+          schema:
+            type: string
+            enum:
+              - date_asc
+              - date_desc
+            default: date_asc
+      responses:
+        "200":
+          description: A paginated list of competitions with registered club athletes.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedClubRegistrations"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /clubs/{club_id}/results:
     get:
@@ -567,6 +781,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PaginatedClubResults"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /competitions:
     get:
@@ -598,6 +820,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Competition"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /competitions/{competition_id}:
     get:
@@ -615,6 +843,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Competition"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /competitions/{competition_id}/startlist:
     get:
@@ -634,6 +868,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/StartEntry"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /notifications:
     get:
@@ -650,6 +890,10 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Notification"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /notifications/{notification_id}:
     get:
@@ -671,6 +915,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Notification"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
     delete:
       tags:
         - Notifications
@@ -690,6 +940,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Message"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
 # ----------------- COMPONENTS (Data Structures) -----------------
 components:
@@ -726,6 +982,22 @@ components:
         type: integer
         example: 30
   responses:
+    BadRequest:
+      description: Invalid request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            message: "Invalid request parameters."
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            message: "Resource not found."
     TooManyRequests:
       description: The rate limit has been exceeded.
       headers:
@@ -741,6 +1013,16 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/Error"
+          example:
+            message: "Rate limit exceeded. Please retry later."
+    InternalServerError:
+      description: An unexpected server error occurred.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            message: "An unexpected server error occurred."
   parameters:
     UserId:
       name: user_id
@@ -979,6 +1261,77 @@ components:
           description: Club result entries for the current page.
           items:
             $ref: "#/components/schemas/ClubResult"
+        pagination:
+          $ref: "#/components/schemas/PaginationMeta"
+
+    ClubRegistrationAthlete:
+      type: object
+      description: A club athlete registered for a competition.
+      properties:
+        id:
+          type: string
+          description: ID of the athlete.
+          example: "A123"
+        first_name:
+          type: string
+          example: "John"
+        last_name:
+          type: string
+          example: "Doe"
+        bib_number:
+          type: integer
+          example: 123
+        category:
+          type: string
+          description: Competition category for the athlete.
+          example: "SEN"
+        disciplines:
+          type: array
+          description: Disciplines the athlete is registered for in this competition.
+          items:
+            type: string
+          example: ["100m", "Long Jump"]
+        registration_status:
+          type: string
+          description: Status of the athlete's registration for this competition.
+          enum: [Registered, Confirmed, Waitlisted, Cancelled]
+          example: "Registered"
+        registered_on:
+          type: string
+          format: date-time
+          description: Time at which the athlete was registered, when available.
+          nullable: true
+          example: "2026-05-20T14:30:15+02:00"
+
+    ClubCompetitionRegistration:
+      description: >-
+        A competition where at least one athlete from the club is registered.
+        Extends the competition calendar representation with the matching club
+        registrations.
+      allOf:
+        - $ref: "#/components/schemas/Competition"
+        - type: object
+          properties:
+            registered_athletes_count:
+              type: integer
+              minimum: 0
+              description: Number of registered athletes from the club.
+              example: 8
+            registered_athletes:
+              type: array
+              description: Athletes from the club registered for this competition.
+              items:
+                $ref: "#/components/schemas/ClubRegistrationAthlete"
+
+    PaginatedClubRegistrations:
+      type: object
+      description: Paginated competitions with registrations for a club.
+      properties:
+        items:
+          type: array
+          description: Competitions with registered athletes for the current page.
+          items:
+            $ref: "#/components/schemas/ClubCompetitionRegistration"
         pagination:
           $ref: "#/components/schemas/PaginationMeta"
 
@@ -1388,7 +1741,7 @@ components:
         media_url:
           type: string
           format: url
-          example: "URLTOMEDIA"
+          example: "https://media.atletiek.nu/uploads/id.png"
         file_type:
           type: string
           example: ".png"
